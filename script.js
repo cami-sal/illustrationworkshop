@@ -12,6 +12,11 @@ const illustrations = [
         src: 'images/park.jpg',
         title: 'Park',
         description: 'A beautiful scene from the park.'
+    },
+    {
+        src: 'images/parkA3-2.png',
+        title: 'Park A3',
+        description: 'Another beautiful scene from the park.'
     }
 ];
 

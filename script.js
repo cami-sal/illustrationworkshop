@@ -9,6 +9,11 @@ const illustrations = [
         description: 'A detailed study of hands.'
     },
     {
+        src: 'images/hand2.png',
+        title: 'Hand 2',
+        description: 'Another study of hands.'
+    },
+    {
         src: 'images/park.jpg',
         title: 'Park',
         description: 'A beautiful scene from the park.'

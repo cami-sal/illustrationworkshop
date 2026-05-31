@@ -218,6 +218,7 @@ let activeColor = null;
 let currentSize = getBaseSize();
 
 function setActiveColor(color) {
+    const closeFilterBtn = document.getElementById('close-filter-btn');
     if (activeColor === color) {
         // Toggle off if clicking the same color again
         activeColor = null;
@@ -225,6 +226,7 @@ function setActiveColor(color) {
         btnRed.classList.remove('active');
         btnBlue.classList.remove('active');
         document.body.classList.remove('filter-active');
+        if (closeFilterBtn) closeFilterBtn.classList.remove('visible');
         
         setTimeout(() => {
             currentSize = getBaseSize();
@@ -239,6 +241,7 @@ function setActiveColor(color) {
         cursorCircle.style.backgroundColor = color;
         cursorCircle.classList.add('active');
         document.body.classList.add('filter-active');
+        if (closeFilterBtn) closeFilterBtn.classList.remove('visible');
         
         btnRed.classList.toggle('active', color === '#ff0000');
         btnBlue.classList.toggle('active', color === '#0000ff');
@@ -261,7 +264,7 @@ if (btnRed && btnBlue && cursorCircle) {
 
     // Position the filter immediately on touch start
     window.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow')) return;
+        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow') || e.target.closest('#close-filter-btn')) return;
         if (activeColor && e.touches.length > 0) {
             updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
         }
@@ -277,16 +280,30 @@ if (btnRed && btnBlue && cursorCircle) {
         }
     }, { passive: false });
 
+    const closeFilterBtn = document.getElementById('close-filter-btn');
+
     window.addEventListener('click', (e) => {
-        // Ignore clicks on color buttons and navigation arrows
-        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow')) return;
+        // Ignore clicks on color buttons, navigation arrows, and the exit button itself
+        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow') || e.target.closest('#close-filter-btn')) return;
         
-        // Prevent size expansion on touch inputs and mobile layouts
-        if (activeColor && e.pointerType !== 'touch' && window.innerWidth >= 480) {
-            currentSize += 150;
+        if (activeColor) {
+            const step = window.innerWidth < 480 ? 120 : 150;
+            currentSize += step;
             cursorCircle.style.width = `${currentSize}px`;
             cursorCircle.style.height = `${currentSize}px`;
+            
+            // Check if filter circle covers the entire screen
+            const maxDimension = Math.max(window.innerWidth, window.innerHeight);
+            if (currentSize >= maxDimension * 2.5) {
+                if (closeFilterBtn) closeFilterBtn.classList.add('visible');
+            }
         }
     });
+
+    if (closeFilterBtn) {
+        closeFilterBtn.addEventListener('click', () => {
+            setActiveColor(activeColor); // Exit filter
+        });
+    }
 }
 

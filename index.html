@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outside vs Inside</title>
+    <title>Outer and Inner Worlds</title>
     <meta name="description" content="A minimalist and elegant showcase of beautiful illustrations.">
     <!-- Modern Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 
 <body>
     <header class="showcase-header">
-        <h1>Outside vs Inside</h1>
+        <h1>Outer and Inner Worlds</h1>
         <p class="subtitle">A collection of works exploring the tension between our external perception and our
             internal experience.</p>
         <div class="color-controls">
@@ -22,9 +22,9 @@
         </div>
     </header>
 
-    <main class="carousel-container">
+    <main class="carousel-container" role="region" aria-roledescription="carousel" aria-label="Illustration Showcase">
         <!-- Navigation Buttons -->
-        <button class="nav-arrow left-arrow" id="prev-btn" aria-label="Previous image">
+        <button class="nav-arrow left-arrow" id="prev-btn" aria-label="Previous slide">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <button class="nav-arrow right-arrow" id="next-btn" aria-label="Next image">
+        <button class="nav-arrow right-arrow" id="next-btn" aria-label="Next slide">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>

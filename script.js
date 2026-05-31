@@ -4,32 +4,46 @@
 
 const illustrations = [
     {
-        src: 'images/hand.jpg',
+        src: 'images/city150.png',
+        title: 'City',
+        description: 'An illustration of a city.'
+    },
+    {
+        src: 'images/dog150.png',
+        title: 'Dog',
+        description: 'An illustration of a dog.'
+    },
+    {
+        src: 'images/fishing150.png',
+        title: 'Fishing',
+        description: 'An illustration of fishing.'
+    },
+    {
+        src: 'images/hand150.png',
         title: 'Hand',
-        description: 'A detailed study of hands.'
+        description: 'An illustration of a hand.'
     },
     {
-        src: 'images/hand2.png',
-        title: 'Hand 2',
-        description: 'Another study of hands.'
+        src: 'images/laptip150.png',
+        title: 'Laptop',
+        description: 'An illustration of a laptop.'
     },
     {
-        src: 'images/park.jpg',
+        src: 'images/panels150.png',
+        title: 'Panels',
+        description: 'An illustration of panels.'
+    },
+    {
+        src: 'images/park150.png',
         title: 'Park',
-        description: 'A beautiful scene from the park.'
+        description: 'An illustration of a park.'
     },
     {
-        src: 'images/parkA3-2.png',
-        title: 'Park A3',
-        description: 'Another beautiful scene from the park.'
+        src: 'images/tree150.png',
+        title: 'Tree',
+        description: 'An illustration of a tree.'
     }
 ];
-
-// Preload images for smoother transitions
-illustrations.forEach(ill => {
-    const img = new Image();
-    img.src = ill.src;
-});
 
 const track = document.getElementById('carousel-track');
 const prevBtn = document.getElementById('prev-btn');
@@ -46,18 +60,26 @@ const slidesData = [
 ];
 
 // Build DOM nodes dynamically
-slidesData.forEach((ill) => {
+slidesData.forEach((ill, idx) => {
     const slide = document.createElement('div');
     slide.className = 'carousel-slide';
+    slide.setAttribute('role', 'group');
+    slide.setAttribute('aria-roledescription', 'slide');
+    
+    if (idx === 0 || idx === slidesData.length - 1) {
+        slide.setAttribute('aria-hidden', 'true');
+    } else {
+        slide.setAttribute('aria-label', `${idx} of ${illustrations.length}`);
+    }
     
     const imgContainer = document.createElement('div');
     imgContainer.className = 'illustration-image-container';
 
     const img = document.createElement('img');
-    img.src = ill.src;
+    // Set data-src for smart adjacent lazy loading
+    img.setAttribute('data-src', ill.src);
     img.alt = ill.title;
     img.className = 'illustration-image';
-    img.loading = "lazy";
     
     imgContainer.appendChild(img);
 
@@ -81,7 +103,24 @@ slidesData.forEach((ill) => {
     track.appendChild(slide);
 });
 
-// Initial offset to show the first real slide
+// Lazy load images dynamically for active, prev, and next slides
+function lazyLoadAdjacent(index) {
+    const slideIndicesToLoad = [index - 1, index, index + 1];
+    slideIndicesToLoad.forEach(i => {
+        if (i >= 0 && i < slidesData.length) {
+            const slideEl = track.children[i];
+            if (slideEl) {
+                const imgEl = slideEl.querySelector('.illustration-image');
+                if (imgEl && !imgEl.src) {
+                    imgEl.src = imgEl.getAttribute('data-src');
+                }
+            }
+        }
+    });
+}
+
+// Initial load and offset to show the first real slide
+lazyLoadAdjacent(currentIndex);
 track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
 // Update Carousel Slide
@@ -92,6 +131,7 @@ function updateSlide(transition = true) {
     } else {
         track.style.transition = 'none';
     }
+    lazyLoadAdjacent(currentIndex);
     track.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
 
@@ -111,7 +151,10 @@ nextBtn.addEventListener('click', () => {
 });
 
 // Handle the end of transition for seamless looping
-track.addEventListener('transitionend', () => {
+track.addEventListener('transitionend', (e) => {
+    // Prevent bubbled transition events from slide images
+    if (e.target !== track) return;
+
     isTransitioning = false;
     
     // Jump from the cloned first element back to the true last element
@@ -135,13 +178,44 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Touch Swipe Navigation for mobile devices
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+
+track.addEventListener('touchstart', (e) => {
+    if (isTransitioning) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+track.addEventListener('touchend', (e) => {
+    if (isTransitioning) return;
+    touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+    
+    // Ensure horizontal swipe
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        if (diffX > 0) {
+            nextBtn.click();
+        } else {
+            prevBtn.click();
+        }
+    }
+}, { passive: true });
+
 // Color Filter Effect Logic
 const cursorCircle = document.getElementById('cursor-circle');
 const btnRed = document.getElementById('btn-red');
 const btnBlue = document.getElementById('btn-blue');
 
+const getBaseSize = () => window.innerWidth < 480 ? 180 : 250;
+
 let activeColor = null;
-let currentSize = 250;
+let currentSize = getBaseSize();
 
 function setActiveColor(color) {
     if (activeColor === color) {
@@ -150,16 +224,21 @@ function setActiveColor(color) {
         cursorCircle.classList.remove('active');
         btnRed.classList.remove('active');
         btnBlue.classList.remove('active');
+        document.body.classList.remove('filter-active');
         
         setTimeout(() => {
-            currentSize = 250;
+            currentSize = getBaseSize();
             cursorCircle.style.width = `${currentSize}px`;
             cursorCircle.style.height = `${currentSize}px`;
         }, 300);
     } else {
         activeColor = color;
+        currentSize = getBaseSize(); // Reset size on switch
+        cursorCircle.style.width = `${currentSize}px`;
+        cursorCircle.style.height = `${currentSize}px`;
         cursorCircle.style.backgroundColor = color;
         cursorCircle.classList.add('active');
+        document.body.classList.add('filter-active');
         
         btnRed.classList.toggle('active', color === '#ff0000');
         btnBlue.classList.toggle('active', color === '#0000ff');
@@ -170,20 +249,44 @@ if (btnRed && btnBlue && cursorCircle) {
     btnRed.addEventListener('click', () => setActiveColor('#ff0000'));
     btnBlue.addEventListener('click', () => setActiveColor('#0000ff'));
 
+    const updateFilterPosition = (clientX, clientY) => {
+        cursorCircle.style.left = `${clientX}px`;
+        cursorCircle.style.top = `${clientY}px`;
+    };
+
+    // Track mouse position continuously to avoid jumps on activation
     window.addEventListener('mousemove', (e) => {
-        if (activeColor) {
-            cursorCircle.style.left = `${e.clientX}px`;
-            cursorCircle.style.top = `${e.clientY}px`;
-        }
+        updateFilterPosition(e.clientX, e.clientY);
     });
 
-    window.addEventListener('click', (e) => {
-        if (e.target.closest('.color-btn')) return;
-        
+    // Position the filter immediately on touch start
+    window.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow')) return;
+        if (activeColor && e.touches.length > 0) {
+            updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    // Touch support for dragging the filter on mobile (lock page scroll when active)
+    window.addEventListener('touchmove', (e) => {
         if (activeColor) {
+            if (e.cancelable) e.preventDefault();
+            if (e.touches.length > 0) {
+                updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }
+    }, { passive: false });
+
+    window.addEventListener('click', (e) => {
+        // Ignore clicks on color buttons and navigation arrows
+        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow')) return;
+        
+        // Prevent size expansion on touch inputs and mobile layouts
+        if (activeColor && e.pointerType !== 'touch' && window.innerWidth >= 480) {
             currentSize += 150;
             cursorCircle.style.width = `${currentSize}px`;
             cursorCircle.style.height = `${currentSize}px`;
         }
     });
 }
+

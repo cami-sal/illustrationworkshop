@@ -426,3 +426,142 @@ body.filter-active .nav-arrow {
 .close-filter-btn:active {
     transform: translateX(-50%) scale(0.98);
 }
+
+/* Fullscreen Mode Overrides */
+body.fullscreen-active {
+    overflow: hidden !important;
+}
+
+body.fullscreen-active .carousel-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.fullscreen-active .carousel-track-viewport {
+    width: 100%;
+    height: 100%;
+}
+
+body.fullscreen-active .carousel-track {
+    height: 100%;
+}
+
+body.fullscreen-active .carousel-slide {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+}
+
+body.fullscreen-active .illustration-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+body.fullscreen-active .illustration-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 0;
+    will-change: transform;
+    cursor: grab;
+}
+
+body.fullscreen-active .illustration-image:active {
+    cursor: grabbing;
+}
+
+/* Hide UI elements in fullscreen */
+body.fullscreen-active .showcase-header h1,
+body.fullscreen-active .showcase-header p.subtitle,
+body.fullscreen-active .illustration-info,
+body.fullscreen-active .nav-arrow {
+    display: none !important;
+}
+
+/* Float color controls in fullscreen */
+body.fullscreen-active .color-controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 60;
+    margin: 0;
+    gap: 20px;
+}
+
+body.fullscreen-active .color-btn {
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+body.fullscreen-active .color-btn.active {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+/* Position Close Fullscreen Button */
+.close-fullscreen-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 70;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.2s, background-color 0.2s;
+    backdrop-filter: blur(8px);
+}
+
+body.fullscreen-active .close-fullscreen-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.close-fullscreen-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #1a1a1a;
+}
+
+.close-fullscreen-btn:hover {
+    background: #ffffff;
+    transform: scale(1.05);
+}
+
+.close-fullscreen-btn:active {
+    transform: scale(0.95);
+}
+
+/* Adjust exit filter button in fullscreen active */
+body.fullscreen-active .close-filter-btn {
+    bottom: 100px; /* Float higher so it doesn't overlap the color controls */
+}

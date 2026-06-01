@@ -558,6 +558,11 @@ if (closeFullscreenBtn) {
     closeFullscreenBtn.addEventListener('click', () => {
         if (!activeZoomImage || activeZoomImage.classList.contains('animating')) return;
 
+        // Turn off active color filter upon exit
+        if (activeColor) {
+            setActiveColor(activeColor);
+        }
+
         const img = activeZoomImage;
         img.classList.add('animating');
 

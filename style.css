@@ -430,7 +430,8 @@ body.filter-active .close-filter-btn {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s;
-    z-index: 110; /* Above the cursor-circle */
+    z-index: 110;
+    /* Above the cursor-circle */
     backdrop-filter: blur(8px);
 }
 
@@ -579,7 +580,7 @@ body.fullscreen-active .carousel-track {
 }
 
 body.fullscreen-exit-active .showcase-header {
-    background-color: #000000 !important;
+    background-color: #252121 !important;
 }
 
 body.fullscreen-exit-active .showcase-header h1,
@@ -631,14 +632,16 @@ body.fullscreen-active .color-btn.active {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(26, 26, 26, 0.85); /* High-contrast dark background */
+    background: rgba(26, 26, 26, 0.85);
+    /* High-contrast dark background */
     border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    z-index: 120; /* Positioned above the color filters (z-index: 100) */
+    z-index: 120;
+    /* Positioned above the color filters (z-index: 100) */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.2s, background-color 0.2s;
@@ -653,7 +656,8 @@ body.fullscreen-active .close-fullscreen-btn {
 .close-fullscreen-btn svg {
     width: 20px;
     height: 20px;
-    color: #ffffff; /* White icon */
+    color: #ffffff;
+    /* White icon */
 }
 
 .close-fullscreen-btn:hover {
@@ -667,7 +671,8 @@ body.fullscreen-active .close-fullscreen-btn {
 
 /* Adjust exit filter button in fullscreen active */
 body.fullscreen-active .close-filter-btn {
-    bottom: 100px; /* Float higher so it doesn't overlap the color controls */
+    bottom: 100px;
+    /* Float higher so it doesn't overlap the color controls */
 }
 
 /* Image Zoom Button */
@@ -728,6 +733,7 @@ body.fullscreen-active .image-zoom-btn {
         width: 38px;
         height: 38px;
     }
+
     .image-zoom-btn svg {
         width: 18px;
         height: 18px;
@@ -739,6 +745,7 @@ body.fullscreen-active .image-zoom-btn {
     from {
         background-color: rgba(255, 255, 255, 0);
     }
+
     to {
         background-color: rgba(255, 255, 255, 1);
     }
@@ -748,6 +755,7 @@ body.fullscreen-active .image-zoom-btn {
     from {
         background-color: rgba(255, 255, 255, 1);
     }
+
     to {
         background-color: rgba(255, 255, 255, 0);
     }
@@ -758,6 +766,7 @@ body.fullscreen-active .image-zoom-btn {
         transform: scale(0.92);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
@@ -769,6 +778,7 @@ body.fullscreen-active .image-zoom-btn {
         transform: scale(1);
         opacity: 1;
     }
+
     to {
         transform: scale(0.92);
         opacity: 0;

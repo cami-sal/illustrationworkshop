@@ -32,8 +32,12 @@ body {
 /* Header Styles */
 .showcase-header {
     text-align: center;
-    margin: 60px 20px 40px;
+    width: 100%;
+    background-color: #000000;
+    padding: 60px 20px;
+    margin: 0 0 50px 0;
     animation: fadeInDown 0.8s ease-out;
+    transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .showcase-header h1 {
@@ -41,12 +45,12 @@ body {
     font-weight: 600;
     letter-spacing: -0.03em;
     margin-bottom: 8px;
-    color: var(--text-main);
+    color: #ffffff;
 }
 
 .subtitle {
     font-size: 1.25rem;
-    color: var(--text-muted);
+    color: #e0e0e0;
     font-weight: 300;
 }
 
@@ -54,9 +58,9 @@ body {
 .carousel-container {
     position: relative;
     width: 100%;
-    max-width: 900px;
+    max-width: 760px;
     margin: 0 auto 80px;
-    padding: 0 100px;
+    padding: 0 80px;
     display: flex;
     align-items: center;
     animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both;
@@ -79,26 +83,35 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     /* ensure there assumes width 100% of the viewport container */
 }
 
 /* Image and Info Styles */
 .illustration-image-container {
-    width: 100%;
-    overflow: hidden;
+    position: relative;
+    width: 72%;
+    max-height: 65vh;
+    aspect-ratio: 1299 / 1813;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 0;
+    margin: 0 auto;
+}
+
+.illustration-image-container.horizontal-container {
+    width: 85%;
+    max-width: 85%;
+    aspect-ratio: 1813 / 1299;
 }
 
 .illustration-image {
     width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1.414;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
     display: block;
     transition: transform 0.6s ease;
-    border-radius: 24px;
 }
 
 
@@ -164,11 +177,11 @@ body {
 }
 
 .left-arrow {
-    left: 20px;
+    left: -40px;
 }
 
 .right-arrow {
-    right: 20px;
+    right: -40px;
 }
 
 /* Keyframe Animations */
@@ -226,18 +239,17 @@ body {
 }
 
 .red-btn {
-    background-color: #ff0000;
+    background-color: #ff3333;
 }
 
 .blue-btn {
     background-color: #0000ff;
 }
 
-/* Cursor Circle */
 .cursor-circle {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 250px;
     height: 250px;
     border-radius: 50%;
@@ -245,21 +257,25 @@ body {
     mix-blend-mode: multiply;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.3s ease, width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    z-index: 100;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 10;
 }
 
 .cursor-circle.active {
     opacity: 1;
+    visibility: visible;
 }
 
-/* Hide default cursor when filter is active, but keep it on interactive elements */
-body.filter-active {
+/* Hide default cursor over illustration container when filter is active, but keep it on interactive elements */
+body.filter-active .illustration-image-container {
     cursor: none;
 }
 
 body.filter-active .color-btn,
-body.filter-active .nav-arrow {
+body.filter-active .nav-arrow,
+body.filter-active .close-fullscreen-btn,
+body.filter-active .close-filter-btn {
     cursor: pointer;
 }
 
@@ -267,7 +283,8 @@ body.filter-active .nav-arrow {
 /* Responsive Adjustments */
 @media (max-width: 800px) {
     .showcase-header {
-        margin: 40px 20px 25px;
+        padding: 40px 20px;
+        margin: 0 0 25px 0;
     }
 
     .showcase-header h1 {
@@ -275,14 +292,19 @@ body.filter-active .nav-arrow {
     }
 
     .carousel-container {
-        padding: 0 60px;
+        padding: 0 80px;
+    }
+
+    .illustration-image-container {
+        width: auto;
+        height: 60vh;
+        max-width: 72%;
+        aspect-ratio: 1299 / 1813;
     }
 
     .illustration-image {
-        max-height: 60vh;
-        width: auto;
-        height: auto;
-        object-fit: contain;
+        width: 100%;
+        height: 100%;
     }
 
     .nav-arrow {
@@ -297,17 +319,18 @@ body.filter-active .nav-arrow {
     }
 
     .left-arrow {
-        left: 5px;
+        left: 12px;
     }
 
     .right-arrow {
-        right: 5px;
+        right: 12px;
     }
 }
 
 @media (max-width: 480px) {
     .showcase-header {
-        margin: 20px 15px 15px;
+        padding: 30px 15px;
+        margin: 0 0 15px 0;
     }
 
     .showcase-header h1 {
@@ -330,15 +353,20 @@ body.filter-active .nav-arrow {
     }
 
     .carousel-container {
-        padding: 0 40px;
+        padding: 0 60px;
         margin: 0 auto 30px;
     }
 
-    .illustration-image {
-        max-height: 52vh;
+    .illustration-image-container {
         width: auto;
-        height: auto;
-        object-fit: contain;
+        height: 52vh;
+        max-width: 72%;
+        aspect-ratio: 1299 / 1813;
+    }
+
+    .illustration-image {
+        width: 100%;
+        height: 100%;
     }
 
     .illustration-info {
@@ -367,11 +395,11 @@ body.filter-active .nav-arrow {
     }
 
     .left-arrow {
-        left: 8px;
+        left: 10px;
     }
 
     .right-arrow {
-        right: 8px;
+        right: 10px;
     }
 
     .cursor-circle {
@@ -441,11 +469,15 @@ body.fullscreen-active .carousel-container {
     max-width: 100vw;
     margin: 0;
     padding: 0;
-    background: #000000;
+    background: #ffffff;
     z-index: 50;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+body.fullscreen-active.fullscreen-exit-active .carousel-container {
+    animation: fullscreenFadeOut 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 body.fullscreen-active .carousel-track-viewport {
@@ -465,35 +497,107 @@ body.fullscreen-active .carousel-slide {
 }
 
 body.fullscreen-active .illustration-image-container {
-    width: 100%;
-    height: 100%;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 71.65vh;
+    max-height: 139.57vw;
+    aspect-ratio: 1299 / 1813;
+    margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    border-radius: 0;
+}
+
+
+body.fullscreen-active .illustration-image-container.horizontal-container {
+    max-width: 139.57vh;
+    max-height: 71.65vw;
+    aspect-ratio: 1813 / 1299;
 }
 
 body.fullscreen-active .illustration-image {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     border-radius: 0;
     will-change: transform;
     cursor: grab;
+    transition: none !important;
+}
+
+body.fullscreen-active .illustration-image.animating {
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 body.fullscreen-active .illustration-image:active {
     cursor: grabbing;
 }
 
-/* Hide UI elements in fullscreen */
-body.fullscreen-active .showcase-header h1,
-body.fullscreen-active .showcase-header p.subtitle,
-body.fullscreen-active .illustration-info,
+/* Transition and Hide UI elements in fullscreen */
+.showcase-header h1,
+.subtitle,
+.illustration-info {
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+body.fullscreen-active .showcase-header {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+body.fullscreen-active .showcase-header h1 {
+    transform: translateY(-20px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body.fullscreen-active .showcase-header p.subtitle {
+    transform: translateY(-15px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body.fullscreen-active .illustration-info {
+    transform: translateY(20px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
 body.fullscreen-active .nav-arrow {
-    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+body.fullscreen-active .carousel-track {
+    transition: none !important;
+}
+
+body.fullscreen-exit-active .showcase-header {
+    background-color: #000000 !important;
+}
+
+body.fullscreen-exit-active .showcase-header h1,
+body.fullscreen-exit-active .subtitle,
+body.fullscreen-exit-active .illustration-info {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+body.fullscreen-exit-active .nav-arrow {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+body.fullscreen-exit-active .close-fullscreen-btn {
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 /* Float color controls in fullscreen */
@@ -522,19 +626,19 @@ body.fullscreen-active .color-btn.active {
 /* Position Close Fullscreen Button */
 .close-fullscreen-btn {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: calc(20px + env(safe-area-inset-top, 0px));
+    right: calc(20px + env(safe-area-inset-right, 0px));
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(26, 26, 26, 0.85); /* High-contrast dark background */
+    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 70;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 120; /* Positioned above the color filters (z-index: 100) */
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.2s, background-color 0.2s;
@@ -547,13 +651,13 @@ body.fullscreen-active .close-fullscreen-btn {
 }
 
 .close-fullscreen-btn svg {
-    width: 24px;
-    height: 24px;
-    color: #1a1a1a;
+    width: 20px;
+    height: 20px;
+    color: #ffffff; /* White icon */
 }
 
 .close-fullscreen-btn:hover {
-    background: #ffffff;
+    background: #1a1a1a;
     transform: scale(1.05);
 }
 
@@ -564,4 +668,109 @@ body.fullscreen-active .close-fullscreen-btn {
 /* Adjust exit filter button in fullscreen active */
 body.fullscreen-active .close-filter-btn {
     bottom: 100px; /* Float higher so it doesn't overlap the color controls */
+}
+
+/* Image Zoom Button */
+.image-zoom-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.2s;
+    z-index: 8;
+    backdrop-filter: blur(8px);
+}
+
+.image-zoom-btn svg {
+    width: 20px;
+    height: 20px;
+    color: #1a1a1a;
+}
+
+.illustration-image-container:hover .image-zoom-btn {
+    opacity: 1;
+}
+
+.image-zoom-btn:hover {
+    background: #ffffff;
+    transform: scale(1.08);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.image-zoom-btn:active {
+    transform: scale(0.95);
+}
+
+body.filter-active .image-zoom-btn {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+body.fullscreen-active .image-zoom-btn {
+    display: none !important;
+}
+
+@media (max-width: 800px) {
+    .image-zoom-btn {
+        opacity: 0.9;
+        top: 15px;
+        right: 15px;
+        width: 38px;
+        height: 38px;
+    }
+    .image-zoom-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Fullscreen Enter/Exit Animations */
+@keyframes fullscreenFadeIn {
+    from {
+        background-color: rgba(255, 255, 255, 0);
+    }
+    to {
+        background-color: rgba(255, 255, 255, 1);
+    }
+}
+
+@keyframes fullscreenFadeOut {
+    from {
+        background-color: rgba(255, 255, 255, 1);
+    }
+    to {
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes fullscreenScaleIn {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fullscreenScaleOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.92);
+        opacity: 0;
+    }
 }

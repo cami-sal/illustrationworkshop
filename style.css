@@ -277,6 +277,14 @@ body.filter-active .close-filter-btn {
         gap: 20px;
         padding: 0 15px;
     }
+
+    .picture-card {
+        order: calc(var(--index) * 2);
+    }
+
+    .title-card {
+        order: calc(var(--index) * 2 + 1);
+    }
 }
 
 @media (max-width: 480px) {
@@ -328,15 +336,13 @@ body.filter-active .close-filter-btn {
     }
 
     .picture-card {
-        order: calc(var(--index) * 2);
         aspect-ratio: 3 / 4;
     }
 
     .title-card {
-        order: calc(var(--index) * 2 + 1);
         aspect-ratio: auto;
         padding: 8px;
-        background-color: #ffffff;
+        background-color: #f9f9f9; /* Same off-white background color as desktop */
     }
 
     .title-card .illustration-info {

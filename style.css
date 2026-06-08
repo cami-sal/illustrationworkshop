@@ -996,3 +996,51 @@ body.fullscreen-active .image-zoom-btn {
         right: 20px;
     }
 }
+
+/* Custom Cursor */
+.custom-cursor {
+    width: 12px;
+    height: 12px;
+    background-color: #ff3333; /* Solid Red circle */
+    border-radius: 50%;
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    opacity: 0;
+    transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
+                height 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
+                background-color 0.15s ease, 
+                opacity 0.15s ease;
+    display: none;
+}
+
+@media (pointer: fine) {
+    .custom-cursor {
+        display: block;
+    }
+}
+
+/* Deactivate in zoom-in mode */
+body.fullscreen-active .custom-cursor {
+    display: none !important;
+}
+
+/* Click State: turns solid blue */
+.custom-cursor.clicking {
+    background-color: #0000ff !important;
+}
+
+/* Enlarge state for hovering over cards or clickable targets */
+.custom-cursor.hovering-card {
+    width: 28px;
+    height: 28px;
+    background-color: #ff3333; /* Solid red when enlarged */
+}
+
+/* Enlarge + Clicking: solid blue */
+.custom-cursor.hovering-card.clicking {
+    background-color: #0000ff !important;
+}

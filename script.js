@@ -632,3 +632,59 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+// Custom Cursor Logic
+const customCursor = document.getElementById('custom-cursor');
+
+if (customCursor) {
+    window.addEventListener('mousemove', (e) => {
+        if (!document.body.classList.contains('fullscreen-active')) {
+            customCursor.style.left = `${e.clientX}px`;
+            customCursor.style.top = `${e.clientY}px`;
+            customCursor.style.opacity = '1';
+        } else {
+            customCursor.style.opacity = '0';
+        }
+    });
+
+    window.addEventListener('mousedown', () => {
+        if (!document.body.classList.contains('fullscreen-active')) {
+            customCursor.classList.add('clicking');
+        }
+    });
+
+    window.addEventListener('mouseup', () => {
+        customCursor.classList.remove('clicking');
+    });
+
+    document.addEventListener('mouseover', (e) => {
+        if (document.body.classList.contains('fullscreen-active')) {
+            customCursor.classList.remove('hovering-card');
+            return;
+        }
+
+        const isClickable = e.target.closest('.grid-card') || 
+                            e.target.closest('.color-btn') || 
+                            e.target.closest('#about-btn') || 
+                            e.target.closest('.close-detail-btn') || 
+                            e.target.closest('.close-filter-btn') || 
+                            e.target.closest('.close-about-btn') ||
+                            e.target.closest('a');
+
+        if (isClickable) {
+            customCursor.classList.add('hovering-card');
+        } else {
+            customCursor.classList.remove('hovering-card');
+        }
+    });
+
+    document.addEventListener('mouseleave', () => {
+        customCursor.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+        if (!document.body.classList.contains('fullscreen-active')) {
+            customCursor.style.opacity = '1';
+        }
+    });
+}

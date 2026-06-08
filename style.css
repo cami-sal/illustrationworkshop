@@ -279,13 +279,12 @@ body.filter-active .close-filter-btn {
         gap: 20px;
         padding: 0 15px;
     }
+}
 
-    .picture-card {
-        order: var(--mobile-order);
-    }
-
+@media (min-width: 901px) {
+    .picture-card,
     .title-card {
-        order: var(--mobile-order);
+        order: 0 !important;
     }
 }
 
@@ -310,7 +309,14 @@ body.filter-active .close-filter-btn {
     .header-actions {
         width: 100%;
         justify-content: center;
-        gap: 20px;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .about-btn,
+    .lang-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 
     .color-controls {
@@ -1025,7 +1031,7 @@ body.fullscreen-active .image-zoom-btn {
     position: fixed;
     top: -100px;
     left: -100px;
-    pointer-events: none;
+    pointer-events: none !important;
     transform: translate(-50%, -50%);
     z-index: 9999;
     opacity: 0;

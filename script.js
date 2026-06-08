@@ -89,7 +89,7 @@ const translations = {
         exitFullscreenAria: '전체화면 종료',
         closeDetailsAria: '상세보기 닫기',
         closeModalAria: '모달 닫기',
-        aboutTitle: '경계에서',
+        aboutTitle: '세계 사이에서',
         aboutParagraphs: [
             '이 컬렉션은 작가에게 소중한 특정 인물의 삶에 대한 시각적 탐구이며, 그의 개인적인 역사, 고군분투, 그리고 조용한 승리가 모든 일러스트레이션에 반영되어 있습니다.',
             '빨간색과 파란색 선화를 통해 작품은 개인의 정체성과 사회적 구조 사이의 마찰을 시각화합니다. 빨간색 요소는 외부 세계, 즉 현대 삶의 반복적이고 예측 가능하며 종종 지치는 공간을 나타냅니다. 반면 파란색 요소는 내부 공간, 즉 이 사람이 버틸 수 있게 해주는 사적인 열정, 깊은 애착, 정신적 탈출을 나타냅니다.',
@@ -184,7 +184,7 @@ function createPictureCard(ill, idx) {
     card.style.setProperty('--index', idx);
 
     const picOrder = (idx % 2 === 0) ? (idx * 2) : (idx * 2 + 1);
-    card.style.setProperty('--mobile-order', picOrder);
+    card.style.order = picOrder;
 
     const imgContainer = document.createElement('div');
     imgContainer.className = 'illustration-image-container';
@@ -249,7 +249,7 @@ function createTitleCard(ill, idx) {
     card.setAttribute('aria-label', `View details for ${translations[currentLang].illustrations[idx].title}`);
 
     const titleOrder = (idx % 2 === 0) ? (idx * 2 + 1) : (idx * 2);
-    card.style.setProperty('--mobile-order', titleOrder);
+    card.style.order = titleOrder;
 
     const info = document.createElement('div');
     info.className = 'illustration-info';

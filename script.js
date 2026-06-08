@@ -334,10 +334,9 @@ if (closeFilterBtn) {
 // Lightbox Zoom Event Handler
 gridContainer.addEventListener('click', (e) => {
     const zoomBtn = e.target.closest('.image-zoom-btn');
-    const isMobile = window.innerWidth <= 480;
     const imgContainer = e.target.closest('.illustration-image-container');
 
-    if (!zoomBtn && !(isMobile && imgContainer)) return;
+    if (!zoomBtn && !imgContainer) return;
 
     if (document.body.classList.contains('fullscreen-active')) return;
 

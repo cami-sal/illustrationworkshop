@@ -881,13 +881,38 @@ body.fullscreen-active .image-zoom-btn {
     visibility: visible;
 }
 
-.detail-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+.detail-image-section {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: 1200px;
-    max-height: 80vh;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.12; /* Low opacity full background */
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.detail-content {
+    position: relative;
+    z-index: 2; /* Text overlay sits above background image */
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
@@ -895,12 +920,13 @@ body.fullscreen-active .image-zoom-btn {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-right: 20px;
-    text-align: left;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
 }
 
 #detail-title {
-    font-size: 3rem;
+    font-size: 3.2rem;
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 25px;
@@ -909,26 +935,10 @@ body.fullscreen-active .image-zoom-btn {
 }
 
 #detail-explanation {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     line-height: 1.8;
-    color: var(--text-muted);
+    color: var(--text-main); /* Darker text for readability */
     font-weight: 300;
-}
-
-.detail-image-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    max-height: 70vh;
-}
-
-#detail-image {
-    max-width: 100%;
-    max-height: 70vh;
-    object-fit: contain;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Close Details Button */
@@ -939,7 +949,7 @@ body.fullscreen-active .image-zoom-btn {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
@@ -947,6 +957,8 @@ body.fullscreen-active .image-zoom-btn {
     cursor: pointer;
     transition: all 0.2s;
     color: var(--text-muted);
+    z-index: 10;
+    backdrop-filter: blur(4px);
 }
 
 .close-detail-btn svg {
@@ -960,31 +972,18 @@ body.fullscreen-active .image-zoom-btn {
     transform: scale(1.05);
 }
 
-/* Mobile Stacking for Detail View */
+/* Mobile Adjustments for Detail View */
 @media (max-width: 800px) {
     .detail-view {
-        padding: 80px 20px 30px;
-        align-items: flex-start;
-    }
-    .detail-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        max-height: none;
-        align-items: stretch;
-    }
-    .detail-image-section {
-        max-height: 45vh;
-        order: -1; /* Image on top on mobile */
-    }
-    #detail-image {
-        max-height: 45vh;
+        padding: 80px 20px 40px;
     }
     #detail-title {
         font-size: 2.2rem;
         margin-bottom: 15px;
     }
     #detail-explanation {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
     }
     .close-detail-btn {
         top: 20px;

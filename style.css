@@ -27,6 +27,8 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: break-word;
 }
 
 h1,
@@ -230,7 +232,7 @@ textarea {
 }
 
 .red-btn {
-    background-color: #ff3333;
+    background-color: #ff0000ff;
 }
 
 .blue-btn {
@@ -279,11 +281,11 @@ body.filter-active .close-filter-btn {
     }
 
     .picture-card {
-        order: calc(var(--index) * 2);
+        order: var(--mobile-order);
     }
 
     .title-card {
-        order: calc(var(--index) * 2 + 1);
+        order: var(--mobile-order);
     }
 }
 
@@ -550,6 +552,20 @@ body.fullscreen-active .color-btn {
     height: 50px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(255, 255, 255, 0.6);
+    cursor: pointer !important;
+}
+
+body.fullscreen-active .close-fullscreen-btn,
+body.fullscreen-active .close-filter-btn {
+    cursor: pointer !important;
+}
+
+body.fullscreen-active .fullscreen-overlay .illustration-image {
+    cursor: grab !important;
+}
+
+body.fullscreen-active .fullscreen-overlay .illustration-image:active {
+    cursor: grabbing !important;
 }
 
 body.fullscreen-active .color-btn.active {
@@ -716,7 +732,8 @@ body.fullscreen-active .image-zoom-btn {
 }
 
 /* About Button & Modal styles */
-.about-btn {
+.about-btn,
+.lang-btn {
     background: transparent;
     border: 1px solid var(--text-main);
     color: var(--text-main);
@@ -729,14 +746,16 @@ body.fullscreen-active .image-zoom-btn {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.about-btn:hover {
+.about-btn:hover,
+.lang-btn:hover {
     background: var(--text-main);
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.about-btn:active {
+.about-btn:active,
+.lang-btn:active {
     transform: translateY(0);
 }
 
@@ -1001,7 +1020,7 @@ body.fullscreen-active .image-zoom-btn {
 .custom-cursor {
     width: 12px;
     height: 12px;
-    background-color: #ff3333; /* Solid Red circle */
+    background-color: #ff0000; /* Solid Red circle */
     border-radius: 50%;
     position: fixed;
     top: -100px;
@@ -1037,7 +1056,7 @@ body.fullscreen-active .custom-cursor {
 .custom-cursor.hovering-card {
     width: 28px;
     height: 28px;
-    background-color: #ff3333; /* Solid red when enlarged */
+    background-color: #0000ff; /* Solid blue when enlarged */
 }
 
 /* Enlarge + Clicking: solid blue */

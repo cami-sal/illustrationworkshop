@@ -279,6 +279,10 @@ body.filter-active .close-filter-btn {
         gap: 20px;
         padding: 0 15px;
     }
+
+    .picture-card.horizontal-card {
+        aspect-ratio: 1.414 / 1;
+    }
 }
 
 @media (min-width: 901px) {
@@ -343,8 +347,16 @@ body.filter-active .close-filter-btn {
         height: auto;
     }
 
+    .horizontal-card {
+        grid-column: 1 / -1;
+    }
+
     .picture-card {
         aspect-ratio: 3 / 4;
+    }
+
+    .picture-card.horizontal-card {
+        aspect-ratio: 1.414 / 1;
     }
 
     .title-card {

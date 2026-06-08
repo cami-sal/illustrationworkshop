@@ -190,6 +190,7 @@ function createPictureCard(ill, idx) {
     imgContainer.className = 'illustration-image-container';
     if (ill.aspectRatio) {
         imgContainer.classList.add('horizontal-container');
+        card.classList.add('horizontal-card');
     }
 
     const img = document.createElement('img');
@@ -247,6 +248,9 @@ function createTitleCard(ill, idx) {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.setAttribute('aria-label', `View details for ${translations[currentLang].illustrations[idx].title}`);
+    if (ill.aspectRatio) {
+        card.classList.add('horizontal-card');
+    }
 
     const titleOrder = (idx % 2 === 0) ? (idx * 2 + 1) : (idx * 2);
     card.style.order = titleOrder;

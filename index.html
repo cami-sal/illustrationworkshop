@@ -4,47 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Out and Inner worlds</title>
+    <title>Between Worlds</title>
     <meta name="description" content="A minimalist and elegant showcase of beautiful illustrations.">
     <!-- Modern Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header class="showcase-header">
-        <h1>Out and Inner worlds</h1>
-        <p class="subtitle">A collection of works exploring the tension between our external perception and our
-            internal experience.</p>
-        <div class="color-controls">
-            <button id="btn-red" class="color-btn red-btn" aria-label="Activate red filter"></button>
-            <button id="btn-blue" class="color-btn blue-btn" aria-label="Activate blue filter"></button>
+        <div class="header-title-wrapper">
+            <h1>Between Worlds</h1>
+            <p class="author-subtitle">By Camila Saldivia</p>
+        </div>
+        <div class="header-actions">
+            <div class="color-controls">
+                <button id="btn-red" class="color-btn red-btn" aria-label="Activate red filter"></button>
+                <button id="btn-blue" class="color-btn blue-btn" aria-label="Activate blue filter"></button>
+            </div>
+            <button id="about-btn" class="about-btn">About</button>
         </div>
     </header>
 
-    <main class="carousel-container" role="region" aria-roledescription="carousel" aria-label="Illustration Showcase">
-        <!-- Navigation Buttons -->
-        <button class="nav-arrow left-arrow" id="prev-btn" aria-label="Previous slide">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-        </button>
-
-        <!-- Carousel Viewport -->
-        <div class="carousel-track-viewport" id="carousel-viewport">
-            <div class="carousel-track" id="carousel-track">
-                <!-- Javascript will populate slides here -->
-            </div>
-        </div>
-
-        <button class="nav-arrow right-arrow" id="next-btn" aria-label="Next slide">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-        </button>
+    <main class="grid-container" id="grid-container" role="region" aria-label="Illustration Grid">
+        <!-- JavaScript will populate cards here -->
     </main>
+
+    <footer class="showcase-footer">
+        <p>&copy; 2026 Camila Saldivia. All rights reserved.</p>
+    </footer>
 
     <button id="close-filter-btn" class="close-filter-btn" aria-label="Exit filter">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -54,13 +43,62 @@
         </svg>
         <span>Exit Filter</span>
     </button>
-    <button id="close-fullscreen-btn" class="close-fullscreen-btn" aria-label="Exit fullscreen">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-    </button>
+    <div id="fullscreen-overlay" class="fullscreen-overlay">
+        <div class="fullscreen-image-container">
+            <div class="cursor-circle" id="fullscreen-circle"></div>
+        </div>
+        <button id="close-fullscreen-btn" class="close-fullscreen-btn" aria-label="Exit fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <!-- Detail View Page Overlay -->
+    <div id="detail-view" class="detail-view" role="dialog" aria-modal="true" aria-label="Illustration Details">
+        <button id="close-detail-btn" class="close-detail-btn" aria-label="Close details">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="detail-content">
+            <div class="detail-text-section">
+                <h2 id="detail-title"></h2>
+                <p id="detail-explanation"></p>
+            </div>
+            <div class="detail-image-section">
+                <img id="detail-image" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- About Exhibition Modal -->
+    <div id="about-modal" class="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title">
+        <div class="about-modal-content">
+            <button id="close-about-btn" class="close-about-btn" aria-label="Close modal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 id="about-title">Between Worlds</h2>
+            <div class="about-text">
+                <p>This collection is a visual study of the life of a particular person, dear to
+                    the author, whose personal history, struggles, and quiet triumphs are reflected in every
+                    illustration.</p>
+                <p>Through the use of red and blue line art, the artwork visualizes the friction between individual
+                    identity and societal structure. The red elements represent the external world: the repetitive,
+                    predictable, and often exhausting spaces of modern life. While the blue elements represent the inner
+                    space: the private passions, profound attachments, and mental escapes that allow this person to
+                    endure.
+                <p>Rather than viewing these two forces as a conflict, this series frames them as a coexistence. A
+                    portrait of someone finding their wholeness.</p>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 

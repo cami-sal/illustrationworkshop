@@ -1,77 +1,97 @@
 /**
- * Illustration Showcase - Carousel Logic
+ * Illustration Showcase - Grid Layout & Lightbox Logic
  */
 
 const illustrations = [
     {
         src: 'images/city150.png',
-        title: 'City',
-        description: 'An illustration of a city.'
+        title: 'I need to get out of the city this weekend',
+        explanation: 'A reflection on the claustrophobia of modern high-rises and the overwhelming architecture of urban environments. The red line structures represent the rigidity of our daily routines, prompting a silent call to find natural breathing room.'
     },
     {
         src: 'images/dog150.png',
-        title: 'Dog',
-        description: 'An illustration of a dog.',
-        aspectRatio: '1.414 / 1'
+        title: 'I had a dream about my friend',
+        aspectRatio: '1.414 / 1',
+        explanation: 'Exploring the soft spaces of memory and companionship. A visual translation of subconscious comfort, where the blue lines trace a dream-state encounter with a companion from the past, representing emotional grounding.'
     },
     {
         src: 'images/fishing150.png',
-        title: 'Fishing',
-        description: 'An illustration of fishing.'
+        title: 'I love fishing, let’s go!',
+        explanation: 'Capturing a moment of pure focus and quiet escape. The act of fishing is depicted as a form of meditation, where the external noise of modern responsibilities falls away, leaving only the simple connection with the water.'
     },
     {
         src: 'images/hand150.png',
-        title: 'Hand',
-        description: 'An illustration of a hand.'
+        title: 'I live to the fullest',
+        explanation: 'An intimate study of touch, agency, and presence. The artwork centers on the gesture of reaching and feeling, symbolizing a quiet determination to live fully, feel deeply, and grasp one\'s own narrative.'
     },
     {
         src: 'images/laptip150.png',
-        title: 'Laptop',
-        description: 'An illustration of a laptop.'
+        title: 'I like it, but it stresses me out',
+        explanation: 'Visualizing the double-edged sword of digital connection. The laptop, representing work and social interfaces, becomes a source of both creative utility and overwhelming mental fatigue.'
     },
     {
         src: 'images/panels150.png',
-        title: 'Panels',
-        description: 'An illustration of panels.'
+        title: 'Just need to keep going,  I can do it',
+        explanation: 'A comic-style narrative sequence depicting the emotional journey of persistence. The repetitive panel structures mirror the feeling of passing time and the daily struggle to keep moving forward.'
     },
     {
         src: 'images/park150.png',
-        title: 'Park',
-        description: 'An illustration of a park.'
+        title: 'I wish I could scape sometimes',
+        explanation: 'Exploring the boundary between private refuge and public space. The drawing depicts a park bench as a temporary sanctuary—a brief pause in the center of the world\'s constant motion.'
     },
     {
         src: 'images/tree150.png',
-        title: 'Tree',
-        description: 'An illustration of a tree.'
+        title: 'There’s so much I want to achieve',
+        explanation: 'A representation of growth, aspiration, and the passage of seasons. The branches stretch upward as a metaphor for personal ambition and the quiet desire to achieve something lasting.'
     }
 ];
 
-const track = document.getElementById('carousel-track');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
+const gridContainer = document.getElementById('grid-container');
 
-let currentIndex = 1;
-let isTransitioning = false;
+let activeColor = null;
+const getBaseSize = () => window.innerWidth < 480 ? 120 : 250;
+let currentSize = getBaseSize();
+let hoveredSlideIndex = -1;
 
-// Append clones to achieve infinite seamless loop
-const slidesData = [
-    illustrations[illustrations.length - 1], // Clone of last item prepended
-    ...illustrations,
-    illustrations[0]                         // Clone of first item appended
-];
+let activeZoomImage = null;
+let activeZoomIndex = -1;
+
+let imageScale = 1;
+let imagePanX = 0;
+let imagePanY = 0;
+
+let initialTouchX = 0;
+let initialTouchY = 0;
+let initialPanX = 0;
+let initialPanY = 0;
+
+let initialPinchHypot = 0;
+let initialPinchScale = 1;
+
+let isDraggingImage = false;
 
 // Build DOM nodes dynamically
-slidesData.forEach((ill, idx) => {
-    const slide = document.createElement('div');
-    slide.className = 'carousel-slide';
-    slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-roledescription', 'slide');
+illustrations.forEach((ill, idx) => {
+    // Alternating checkerboard layout order
+    const isPictureFirst = (Math.floor(idx / 2) % 2 === 0);
 
-    if (idx === 0 || idx === slidesData.length - 1) {
-        slide.setAttribute('aria-hidden', 'true');
+    const picCard = createPictureCard(ill, idx);
+    const titleCard = createTitleCard(ill, idx);
+
+    if (isPictureFirst) {
+        gridContainer.appendChild(picCard);
+        gridContainer.appendChild(titleCard);
     } else {
-        slide.setAttribute('aria-label', `${idx} of ${illustrations.length}`);
+        gridContainer.appendChild(titleCard);
+        gridContainer.appendChild(picCard);
     }
+});
+
+function createPictureCard(ill, idx) {
+    const card = document.createElement('div');
+    card.className = 'grid-card picture-card';
+    card.setAttribute('data-index', idx);
+    card.style.setProperty('--index', idx);
 
     const imgContainer = document.createElement('div');
     imgContainer.className = 'illustration-image-container';
@@ -80,11 +100,9 @@ slidesData.forEach((ill, idx) => {
     }
 
     const img = document.createElement('img');
-    // Set data-src for smart adjacent lazy loading
-    img.setAttribute('data-src', ill.src);
+    img.src = ill.src;
     img.alt = ill.title;
     img.className = 'illustration-image';
-
     imgContainer.appendChild(img);
 
     const filterCircle = document.createElement('div');
@@ -105,6 +123,38 @@ slidesData.forEach((ill, idx) => {
     `;
     imgContainer.appendChild(zoomBtn);
 
+    card.appendChild(imgContainer);
+
+    imgContainer.addEventListener('mouseenter', () => {
+        hoveredSlideIndex = idx;
+        if (activeColor) {
+            filterCircle.style.width = `${currentSize}px`;
+            filterCircle.style.height = `${currentSize}px`;
+            filterCircle.style.backgroundColor = activeColor;
+            filterCircle.classList.add('active');
+        }
+    });
+
+    imgContainer.addEventListener('mouseleave', () => {
+        if (hoveredSlideIndex === idx) {
+            hoveredSlideIndex = -1;
+        }
+        filterCircle.classList.remove('active');
+        filterCircle.style.backgroundColor = 'transparent';
+    });
+
+    return card;
+}
+
+function createTitleCard(ill, idx) {
+    const card = document.createElement('div');
+    card.className = 'grid-card title-card';
+    card.setAttribute('data-index', idx);
+    card.style.setProperty('--index', idx);
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `View details for ${ill.title}`);
+
     const info = document.createElement('div');
     info.className = 'illustration-info';
 
@@ -112,167 +162,21 @@ slidesData.forEach((ill, idx) => {
     title.className = 'illustration-title';
     title.textContent = ill.title;
 
-    const desc = document.createElement('p');
-    desc.className = 'illustration-desc';
-    desc.textContent = ill.description;
-
     info.appendChild(title);
-    info.appendChild(desc);
+    card.appendChild(info);
 
-    slide.appendChild(imgContainer);
-    slide.appendChild(info);
-
-    track.appendChild(slide);
-});
-
-// Lazy load images dynamically for active, prev, and next slides
-function lazyLoadAdjacent(index) {
-    const slideIndicesToLoad = [index - 1, index, index + 1];
-    slideIndicesToLoad.forEach(i => {
-        if (i >= 0 && i < slidesData.length) {
-            const slideEl = track.children[i];
-            if (slideEl) {
-                const imgEl = slideEl.querySelector('.illustration-image');
-                if (imgEl && !imgEl.src) {
-                    imgEl.src = imgEl.getAttribute('data-src');
-                }
-            }
-        }
-    });
+    return card;
 }
-
-// Initial load and offset to show the first real slide
-lazyLoadAdjacent(currentIndex);
-track.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-// Update Carousel Slide
-function updateSlide(transition = true) {
-    if (transition) {
-        // Fast, elegant custom ease
-        track.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-    } else {
-        track.style.transition = 'none';
-    }
-    lazyLoadAdjacent(currentIndex);
-    track.style.transform = `translateX(-${currentIndex * 100}%)`;
-    
-    // Deactivate other filter circles and activate only the new active slide's circle
-    if (activeColor) {
-        const allCircles = document.querySelectorAll('.cursor-circle');
-        allCircles.forEach(circle => {
-            circle.classList.remove('active');
-            circle.style.backgroundColor = 'transparent';
-        });
-
-        const activeSlide = track.children[currentIndex];
-        if (activeSlide) {
-            const activeCircle = activeSlide.querySelector('.cursor-circle');
-            if (activeCircle) {
-                activeCircle.style.width = `${currentSize}px`;
-                activeCircle.style.height = `${currentSize}px`;
-                activeCircle.style.backgroundColor = activeColor;
-                activeCircle.classList.add('active');
-            }
-        }
-    }
-
-    if (window.updateActiveFilterPos) {
-        window.updateActiveFilterPos();
-    }
-}
-
-// Navigation Events
-prevBtn.addEventListener('click', () => {
-    if (isTransitioning) return;
-    isTransitioning = true;
-    currentIndex--;
-    updateSlide();
-});
-
-nextBtn.addEventListener('click', () => {
-    if (isTransitioning) return;
-    isTransitioning = true;
-    currentIndex++;
-    updateSlide();
-});
-
-// Handle the end of transition for seamless looping
-track.addEventListener('transitionend', (e) => {
-    // Prevent bubbled transition events from slide images
-    if (e.target !== track) return;
-
-    isTransitioning = false;
-
-    // Jump from the cloned first element back to the true last element
-    if (currentIndex === 0) {
-        currentIndex = illustrations.length;
-        updateSlide(false);
-    }
-    // Jump from the cloned last element back to the true first element
-    else if (currentIndex === slidesData.length - 1) {
-        currentIndex = 1;
-        updateSlide(false);
-    }
-});
-
-// Keyboard Accessibility
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-        prevBtn.click();
-    } else if (e.key === 'ArrowRight') {
-        nextBtn.click();
-    } else if (e.key === 'Escape') {
-        const closeBtn = document.getElementById('close-fullscreen-btn');
-        if (closeBtn && document.body.classList.contains('fullscreen-active')) {
-            closeBtn.click();
-        }
-    }
-});
-
-// Touch Swipe Navigation for mobile devices
-let touchStartX = 0;
-let touchEndX = 0;
-let touchStartY = 0;
-
-track.addEventListener('touchstart', (e) => {
-    if (isTransitioning) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-track.addEventListener('touchend', (e) => {
-    if (isTransitioning) return;
-    touchEndX = e.changedTouches[0].clientX;
-    const touchEndY = e.changedTouches[0].clientY;
-
-    const diffX = touchStartX - touchEndX;
-    const diffY = touchStartY - touchEndY;
-
-    // Ensure horizontal swipe
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-        if (diffX > 0) {
-            nextBtn.click();
-        } else {
-            prevBtn.click();
-        }
-    }
-}, { passive: true });
 
 // Color Filter Effect Logic
 const btnRed = document.getElementById('btn-red');
 const btnBlue = document.getElementById('btn-blue');
-
-const getBaseSize = () => window.innerWidth < 480 ? 180 : 250;
-
-let activeColor = null;
-let currentSize = getBaseSize();
 
 function setActiveColor(color) {
     const closeFilterBtn = document.getElementById('close-filter-btn');
     const allCircles = document.querySelectorAll('.cursor-circle');
 
     if (activeColor === color) {
-        // Toggle off if clicking the same color again
         activeColor = null;
         allCircles.forEach(circle => {
             circle.classList.remove('active');
@@ -292,22 +196,34 @@ function setActiveColor(color) {
         }, 300);
     } else {
         activeColor = color;
-        currentSize = getBaseSize(); // Reset size on switch
+        currentSize = getBaseSize();
+        
         allCircles.forEach(circle => {
             circle.classList.remove('active');
             circle.style.backgroundColor = 'transparent';
         });
 
-        const activeSlide = track.children[currentIndex];
-        if (activeSlide) {
-            const activeCircle = activeSlide.querySelector('.cursor-circle');
+        if (document.body.classList.contains('fullscreen-active')) {
+            const activeCircle = document.getElementById('fullscreen-circle');
             if (activeCircle) {
                 activeCircle.style.width = `${currentSize}px`;
                 activeCircle.style.height = `${currentSize}px`;
                 activeCircle.style.backgroundColor = color;
                 activeCircle.classList.add('active');
             }
+        } else if (hoveredSlideIndex !== -1) {
+            const card = gridContainer.querySelector(`.picture-card[data-index="${hoveredSlideIndex}"]`);
+            if (card) {
+                const activeCircle = card.querySelector('.cursor-circle');
+                if (activeCircle) {
+                    activeCircle.style.width = `${currentSize}px`;
+                    activeCircle.style.height = `${currentSize}px`;
+                    activeCircle.style.backgroundColor = color;
+                    activeCircle.classList.add('active');
+                }
+            }
         }
+
         document.body.classList.add('filter-active');
         if (closeFilterBtn) closeFilterBtn.classList.remove('visible');
 
@@ -316,26 +232,296 @@ function setActiveColor(color) {
     }
 }
 
-// Fullscreen & Zooming Logic
-let activeZoomImage = null;
-let imageScale = 1;
-let imagePanX = 0;
-let imagePanY = 0;
+let lastClientX = window.innerWidth / 2;
+let lastClientY = window.innerHeight / 2;
 
-let initialTouchX = 0;
-let initialTouchY = 0;
-let initialPanX = 0;
-let initialPanY = 0;
+const updateFilterPosition = (clientX, clientY) => {
+    lastClientX = clientX;
+    lastClientY = clientY;
+    
+    if (document.body.classList.contains('fullscreen-active')) {
+        const overlayContainer = document.querySelector('.fullscreen-image-container');
+        const activeCircle = document.getElementById('fullscreen-circle');
+        if (overlayContainer && activeCircle) {
+            const rect = overlayContainer.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            activeCircle.style.left = `${x}px`;
+            activeCircle.style.top = `${y}px`;
+        }
+    } else if (hoveredSlideIndex !== -1) {
+        const card = gridContainer.querySelector(`.picture-card[data-index="${hoveredSlideIndex}"]`);
+        if (card) {
+            const imgContainer = card.querySelector('.illustration-image-container');
+            const activeCircle = card.querySelector('.cursor-circle');
+            if (imgContainer && activeCircle) {
+                const rect = imgContainer.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                activeCircle.style.left = `${x}px`;
+                activeCircle.style.top = `${y}px`;
+            }
+        }
+    }
+};
 
-let initialPinchHypot = 0;
-let initialPinchScale = 1;
+window.addEventListener('mousemove', (e) => {
+    updateFilterPosition(e.clientX, e.clientY);
+});
 
-let isDraggingImage = false;
-let lastTapTime = 0;
+window.addEventListener('touchstart', (e) => {
+    if (e.target.closest('.color-btn') || e.target.closest('#close-filter-btn') || e.target.closest('#close-fullscreen-btn')) return;
+    if (activeColor && e.touches.length > 0) {
+        updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
+    }
+}, { passive: true });
 
-function applyImageTransform() {
-    if (activeZoomImage) {
-        activeZoomImage.style.transform = `scale(${imageScale}) translate(${imagePanX}px, ${imagePanY}px)`;
+window.addEventListener('touchmove', (e) => {
+    if (activeColor) {
+        if (e.cancelable) e.preventDefault();
+        if (e.touches.length > 0) {
+            updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }
+}, { passive: false });
+
+if (btnRed && btnBlue) {
+    btnRed.addEventListener('click', () => setActiveColor('#ff3333'));
+    btnBlue.addEventListener('click', () => setActiveColor('#0000ff'));
+}
+
+const closeFilterBtn = document.getElementById('close-filter-btn');
+
+window.addEventListener('click', (e) => {
+    if (
+        e.target.closest('.color-btn') || 
+        e.target.closest('#close-filter-btn') || 
+        e.target.closest('#close-fullscreen-btn') || 
+        e.target.closest('.image-zoom-btn') || 
+        e.target.closest('#about-btn') || 
+        e.target.closest('#about-modal')
+    ) return;
+
+    if (activeColor && e.button === 0) {
+        const step = window.innerWidth < 480 ? 120 : 150;
+        currentSize += step;
+        const allCircles = document.querySelectorAll('.cursor-circle');
+        allCircles.forEach(circle => {
+            circle.style.width = `${currentSize}px`;
+            circle.style.height = `${currentSize}px`;
+        });
+
+        const maxDimension = Math.max(window.innerWidth, window.innerHeight);
+        if (currentSize >= maxDimension * 2.5) {
+            if (closeFilterBtn) closeFilterBtn.classList.add('visible');
+        }
+    }
+});
+
+window.addEventListener('contextmenu', (e) => {
+    if (activeColor) {
+        e.preventDefault();
+        setActiveColor(activeColor);
+    }
+});
+
+if (closeFilterBtn) {
+    closeFilterBtn.addEventListener('click', () => {
+        setActiveColor(activeColor);
+    });
+}
+
+// Lightbox Zoom Event Handler
+gridContainer.addEventListener('click', (e) => {
+    const zoomBtn = e.target.closest('.image-zoom-btn');
+    if (!zoomBtn) return;
+
+    if (document.body.classList.contains('fullscreen-active')) return;
+
+    const card = e.target.closest('.picture-card');
+    const idx = parseInt(card.getAttribute('data-index'), 10);
+    const img = card ? card.querySelector('.illustration-image') : null;
+
+    if (img) {
+        activeZoomImage = img;
+        activeZoomIndex = idx;
+
+        const firstRect = img.getBoundingClientRect();
+
+        const overlay = document.getElementById('fullscreen-overlay');
+        const overlayContainer = overlay.querySelector('.fullscreen-image-container');
+        
+        // Clear old image if any
+        const existingImg = overlayContainer.querySelector('.illustration-image');
+        if (existingImg) existingImg.remove();
+
+        const overlayImg = document.createElement('img');
+        overlayImg.src = img.src;
+        overlayImg.alt = img.alt;
+        overlayImg.className = 'illustration-image';
+        if (img.parentElement.classList.contains('horizontal-container')) {
+            overlayContainer.classList.add('horizontal-container');
+        } else {
+            overlayContainer.classList.remove('horizontal-container');
+        }
+        overlayContainer.insertBefore(overlayImg, overlayContainer.firstChild);
+
+        // Sync active color filter circle to overlay
+        if (activeColor) {
+            const allCircles = document.querySelectorAll('.cursor-circle');
+            allCircles.forEach(circle => {
+                circle.classList.remove('active');
+                circle.style.backgroundColor = 'transparent';
+            });
+
+            const fsCircle = document.getElementById('fullscreen-circle');
+            if (fsCircle) {
+                fsCircle.style.width = `${currentSize}px`;
+                fsCircle.style.height = `${currentSize}px`;
+                fsCircle.style.backgroundColor = activeColor;
+                fsCircle.classList.add('active');
+            }
+        }
+
+        resetImageTransform(overlayImg);
+        document.body.classList.add('fullscreen-active');
+
+        const lastRect = overlayImg.getBoundingClientRect();
+
+        const deltaX = firstRect.left - lastRect.left;
+        const deltaY = firstRect.top - lastRect.top;
+        const deltaW = firstRect.width / lastRect.width;
+        const deltaH = firstRect.height / lastRect.height;
+
+        overlayImg.style.transformOrigin = 'top left';
+        overlayImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                overlayImg.classList.add('animating');
+                overlayImg.style.transform = 'translate(0px, 0px) scale(1)';
+            });
+        });
+
+        setTimeout(() => {
+            overlayImg.classList.remove('animating');
+            overlayImg.style.transformOrigin = '';
+        }, 450);
+    }
+});
+
+const closeFullscreenBtn = document.getElementById('close-fullscreen-btn');
+if (closeFullscreenBtn) {
+    closeFullscreenBtn.addEventListener('click', () => {
+        const overlay = document.getElementById('fullscreen-overlay');
+        const overlayImg = overlay.querySelector('.illustration-image');
+
+        if (!overlayImg || overlayImg.classList.contains('animating')) return;
+
+        // Turn off active color filter upon exit
+        if (activeColor) {
+            setActiveColor(activeColor);
+        }
+
+        overlayImg.classList.add('animating');
+
+        // FLIP Animation: Measure (Last)
+        const lastRect = overlayImg.getBoundingClientRect();
+
+        // Revert class to measure standard grid layout (First)
+        document.body.classList.remove('fullscreen-active');
+        const firstRect = activeZoomImage.getBoundingClientRect();
+        
+        // Go back to fullscreen state to animate
+        document.body.classList.add('fullscreen-active');
+
+        // Calculate differences (Invert)
+        const deltaX = firstRect.left - lastRect.left;
+        const deltaY = firstRect.top - lastRect.top;
+        const deltaW = firstRect.width / lastRect.width;
+        const deltaH = firstRect.height / lastRect.height;
+
+        overlayImg.style.transformOrigin = 'top left';
+        overlayImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
+
+        // Clean up classes and state after transition (Play)
+        setTimeout(() => {
+            document.body.classList.remove('fullscreen-active');
+            overlayImg.classList.remove('animating');
+            resetImageTransform(overlayImg);
+            overlayImg.remove();
+            activeZoomImage = null;
+            activeZoomIndex = -1;
+        }, 450);
+    });
+}
+
+// Touch zoom panning/pinching
+const overlay = document.getElementById('fullscreen-overlay');
+if (overlay) {
+    overlay.addEventListener('touchstart', (e) => {
+        if (!e.target.classList.contains('illustration-image')) return;
+        if (e.target.classList.contains('animating')) return;
+
+        const touches = e.touches;
+
+        if (touches.length === 1) {
+            if (imageScale > 1) {
+                isDraggingImage = true;
+                initialTouchX = touches[0].clientX;
+                initialTouchY = touches[0].clientY;
+                initialPanX = imagePanX;
+                initialPanY = imagePanY;
+            }
+        } else if (touches.length === 2) {
+            isDraggingImage = false;
+            initialPinchHypot = Math.hypot(
+                touches[0].clientX - touches[1].clientX,
+                touches[0].clientY - touches[1].clientY
+            );
+            initialPinchScale = imageScale;
+        }
+    }, { passive: true });
+
+    overlay.addEventListener('touchmove', (e) => {
+        const overlayImg = overlay.querySelector('.illustration-image');
+        if (!overlayImg || overlayImg.classList.contains('animating')) return;
+        if (!e.target.classList.contains('illustration-image')) return;
+
+        const touches = e.touches;
+
+        if (isDraggingImage && touches.length === 1) {
+            const dx = touches[0].clientX - initialTouchX;
+            const dy = touches[0].clientY - initialTouchY;
+            imagePanX = initialPanX + dx / imageScale;
+            imagePanY = initialPanY + dy / imageScale;
+            applyOverlayImageTransform(overlayImg);
+            if (e.cancelable) e.preventDefault();
+        } else if (touches.length === 2) {
+            const currentHypot = Math.hypot(
+                touches[0].clientX - touches[1].clientX,
+                touches[0].clientY - touches[1].clientY
+            );
+            const scaleRatio = currentHypot / initialPinchHypot;
+            imageScale = Math.min(Math.max(initialPinchScale * scaleRatio, 1), 4);
+
+            if (imageScale === 1) {
+                imagePanX = 0;
+                imagePanY = 0;
+            }
+            applyOverlayImageTransform(overlayImg);
+            if (e.cancelable) e.preventDefault();
+        }
+    }, { passive: false });
+
+    overlay.addEventListener('touchend', () => {
+        isDraggingImage = false;
+    });
+}
+
+function applyOverlayImageTransform(overlayImg) {
+    if (overlayImg) {
+        overlayImg.style.transform = `scale(${imageScale}) translate(${imagePanX}px, ${imagePanY}px)`;
     }
 }
 
@@ -349,251 +535,95 @@ function resetImageTransform(img) {
     isDraggingImage = false;
 }
 
-if (btnRed && btnBlue) {
-    btnRed.addEventListener('click', () => setActiveColor('#ff3333'));
-    btnBlue.addEventListener('click', () => setActiveColor('#0000ff'));
-
-    // Keep track of the last known coordinates
-    let lastClientX = window.innerWidth / 2;
-    let lastClientY = window.innerHeight / 2;
-
-    const updateFilterPosition = (clientX, clientY) => {
-        lastClientX = clientX;
-        lastClientY = clientY;
-        const activeSlide = track.children[currentIndex];
-        if (activeSlide) {
-            const imgContainer = activeSlide.querySelector('.illustration-image-container');
-            const activeCircle = activeSlide.querySelector('.cursor-circle');
-            if (imgContainer && activeCircle) {
-                const rect = imgContainer.getBoundingClientRect();
-                const x = clientX - rect.left;
-                const y = clientY - rect.top;
-                activeCircle.style.left = `${x}px`;
-                activeCircle.style.top = `${y}px`;
-            }
-        }
-    };
-
-    // Track mouse position continuously to avoid jumps on activation
-    window.addEventListener('mousemove', (e) => {
-        updateFilterPosition(e.clientX, e.clientY);
-    });
-
-    // Position the filter immediately on touch start
-    window.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow') || e.target.closest('#close-filter-btn') || e.target.closest('#close-fullscreen-btn')) return;
-        if (activeColor && e.touches.length > 0) {
-            updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
-        }
-    }, { passive: true });
-
-    // Touch support for dragging the filter on mobile (lock page scroll when active)
-    window.addEventListener('touchmove', (e) => {
-        if (activeColor) {
-            if (e.cancelable) e.preventDefault();
-            if (e.touches.length > 0) {
-                updateFilterPosition(e.touches[0].clientX, e.touches[0].clientY);
-            }
-        }
-    }, { passive: false });
-
-    const closeFilterBtn = document.getElementById('close-filter-btn');
-
-    window.addEventListener('click', (e) => {
-        // Ignore clicks on color buttons, navigation arrows, and the exit buttons
-        if (e.target.closest('.color-btn') || e.target.closest('.nav-arrow') || e.target.closest('#close-filter-btn') || e.target.closest('#close-fullscreen-btn')) return;
-
-        if (activeColor && e.button === 0) { // Expand only on left-click
-            const step = window.innerWidth < 480 ? 120 : 150;
-            currentSize += step;
-            const allCircles = document.querySelectorAll('.cursor-circle');
-            allCircles.forEach(circle => {
-                circle.style.width = `${currentSize}px`;
-                circle.style.height = `${currentSize}px`;
-            });
-
-            // Check if filter circle covers the entire screen
-            const maxDimension = Math.max(window.innerWidth, window.innerHeight);
-            if (currentSize >= maxDimension * 2.5) {
-                if (closeFilterBtn) closeFilterBtn.classList.add('visible');
-            }
-        }
-    });
-
-    // Right-click (or long-press on mobile) to exit the active filter
-    window.addEventListener('contextmenu', (e) => {
-        if (activeColor) {
-            e.preventDefault(); // Prevent default browser context menu
-            setActiveColor(activeColor); // Exit active filter
-        }
-    });
-
-    if (closeFilterBtn) {
-        closeFilterBtn.addEventListener('click', () => {
-            setActiveColor(activeColor); // Exit filter
-        });
-    }
-
-    // Expose a helper to trigger positioning after slide transitions
-    window.updateActiveFilterPos = () => {
-        updateFilterPosition(lastClientX, lastClientY);
-    };
-}
-
-// Touch Delegation on track for Fullscreen & Zooming
-track.addEventListener('click', (e) => {
-    const zoomBtn = e.target.closest('.image-zoom-btn');
-
-    if (zoomBtn) {
-        if (activeColor) return; // Prevent entering fullscreen when filter is active
-        if (document.body.classList.contains('fullscreen-active')) return;
-
-        const slide = e.target.closest('.carousel-slide');
-        const img = slide ? slide.querySelector('.illustration-image') : null;
-
-        if (img) {
-            // FLIP Animation: Measure (First)
-            const firstRect = img.getBoundingClientRect();
-
-            // Set state and active layout
-            activeZoomImage = img;
-            resetImageTransform(activeZoomImage);
-            document.body.classList.add('fullscreen-active');
-
-            // Measure (Last)
-            const lastRect = img.getBoundingClientRect();
-
-            // Calculate inversion differences (Invert)
-            const deltaX = firstRect.left - lastRect.left;
-            const deltaY = firstRect.top - lastRect.top;
-            const deltaW = firstRect.width / lastRect.width;
-            const deltaH = firstRect.height / lastRect.height;
-
-            // Apply starting style
-            img.style.transformOrigin = 'top left';
-            img.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
-
-            // Use requestAnimationFrame to ensure the starting position is registered
-            // by the browser before starting the transition.
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    img.classList.add('animating');
-                    img.style.transform = 'translate(0px, 0px) scale(1)';
-                });
-            });
-
-            // Clean up when animation ends
-            setTimeout(() => {
-                img.classList.remove('animating');
-                img.style.transformOrigin = '';
-            }, 450);
+// Global key down for Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const closeBtn = document.getElementById('close-fullscreen-btn');
+        if (closeBtn && document.body.classList.contains('fullscreen-active')) {
+            closeBtn.click();
         }
     }
 });
 
-track.addEventListener('touchstart', (e) => {
-    if (!document.body.classList.contains('fullscreen-active')) return;
-    if (!e.target.classList.contains('illustration-image')) return;
-    if (e.target.classList.contains('animating')) return;
+// About Modal Event Listeners
+const aboutBtn = document.getElementById('about-btn');
+const aboutModal = document.getElementById('about-modal');
+const closeAboutBtn = document.getElementById('close-about-btn');
 
-    const touches = e.touches;
+if (aboutBtn && aboutModal && closeAboutBtn) {
+    aboutBtn.addEventListener('click', () => {
+        aboutModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
 
-    if (touches.length === 1) {
-        // Single finger drag initialization (only pan if zoomed)
-        if (imageScale > 1) {
-            isDraggingImage = true;
-            initialTouchX = touches[0].clientX;
-            initialTouchY = touches[0].clientY;
-            initialPanX = imagePanX;
-            initialPanY = imagePanY;
+    const closeAbout = () => {
+        aboutModal.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+
+    closeAboutBtn.addEventListener('click', closeAbout);
+
+    aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) {
+            closeAbout();
         }
-    } else if (touches.length === 2) {
-        isDraggingImage = false;
-        initialPinchHypot = Math.hypot(
-            touches[0].clientX - touches[1].clientX,
-            touches[0].clientY - touches[1].clientY
-        );
-        initialPinchScale = imageScale;
-    }
-}, { passive: false });
+    });
 
-track.addEventListener('touchmove', (e) => {
-    if (!document.body.classList.contains('fullscreen-active')) return;
-    if (!e.target.classList.contains('illustration-image')) return;
-    if (e.target.classList.contains('animating')) return;
-
-    const touches = e.touches;
-
-    if (isDraggingImage && touches.length === 1) {
-        const dx = touches[0].clientX - initialTouchX;
-        const dy = touches[0].clientY - initialTouchY;
-        imagePanX = initialPanX + dx / imageScale;
-        imagePanY = initialPanY + dy / imageScale;
-        applyImageTransform();
-        if (e.cancelable) e.preventDefault();
-    } else if (touches.length === 2) {
-        const currentHypot = Math.hypot(
-            touches[0].clientX - touches[1].clientX,
-            touches[0].clientY - touches[1].clientY
-        );
-        const scaleRatio = currentHypot / initialPinchHypot;
-        imageScale = Math.min(Math.max(initialPinchScale * scaleRatio, 1), 4);
-
-        if (imageScale === 1) {
-            imagePanX = 0;
-            imagePanY = 0;
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && aboutModal.classList.contains('active')) {
+            closeAbout();
         }
-        applyImageTransform();
-        if (e.cancelable) e.preventDefault();
-    }
-}, { passive: false });
-
-track.addEventListener('touchend', (e) => {
-    isDraggingImage = false;
-});
-
-// Close Fullscreen Event Handler
-const closeFullscreenBtn = document.getElementById('close-fullscreen-btn');
-if (closeFullscreenBtn) {
-    closeFullscreenBtn.addEventListener('click', () => {
-        if (!activeZoomImage || activeZoomImage.classList.contains('animating')) return;
-
-        // Turn off active color filter upon exit
-        if (activeColor) {
-            setActiveColor(activeColor);
-        }
-
-        const img = activeZoomImage;
-        img.classList.add('animating');
-
-        // FLIP Animation: Measure (Last)
-        const lastRect = img.getBoundingClientRect();
-
-        // Revert class to measure standard carousel layout (First)
-        document.body.classList.remove('fullscreen-active');
-        const firstRect = img.getBoundingClientRect();
-        document.body.classList.add('fullscreen-active');
-
-        // Calculate differences (Invert)
-        const deltaX = firstRect.left - lastRect.left;
-        const deltaY = firstRect.top - lastRect.top;
-        const deltaW = firstRect.width / lastRect.width;
-        const deltaH = firstRect.height / lastRect.height;
-
-        // Apply style to play backward transition
-        document.body.classList.add('fullscreen-exit-active');
-        img.style.transformOrigin = 'top left';
-        img.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
-
-        // Clean up classes and state after transition (Play)
-        setTimeout(() => {
-            document.body.classList.remove('fullscreen-active');
-            document.body.classList.remove('fullscreen-exit-active');
-            img.classList.remove('animating');
-            resetImageTransform(img);
-            activeZoomImage = null;
-        }, 450);
     });
 }
 
+// Detail View Page Event Handlers
+function openDetailView(idx) {
+    const ill = illustrations[idx];
+    
+    document.getElementById('detail-title').textContent = ill.title;
+    document.getElementById('detail-explanation').textContent = ill.explanation || "";
+    
+    const detailImg = document.getElementById('detail-image');
+    detailImg.src = ill.src;
+    detailImg.alt = ill.title;
+    
+    document.getElementById('detail-view').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
 
+gridContainer.addEventListener('click', (e) => {
+    const titleCard = e.target.closest('.title-card');
+    if (!titleCard) return;
+
+    const idx = parseInt(titleCard.getAttribute('data-index'), 10);
+    openDetailView(idx);
+});
+
+gridContainer.addEventListener('keydown', (e) => {
+    const titleCard = e.target.closest('.title-card');
+    if (!titleCard) return;
+
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const idx = parseInt(titleCard.getAttribute('data-index'), 10);
+        openDetailView(idx);
+    }
+});
+
+const closeDetailBtn = document.getElementById('close-detail-btn');
+if (closeDetailBtn) {
+    closeDetailBtn.addEventListener('click', () => {
+        document.getElementById('detail-view').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const detailView = document.getElementById('detail-view');
+        if (detailView && detailView.classList.contains('active')) {
+            detailView.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+});

@@ -6,43 +6,43 @@ const illustrations = [
     {
         src: 'images/city150.png',
         title: 'I need to get out of the city this weekend',
-        explanation: 'A reflection on the claustrophobia of modern high-rises and the overwhelming architecture of urban environments. The red line structures represent the rigidity of our daily routines, prompting a silent call to find natural breathing room.'
+        explanation: 'The skyline, the loud, familiar comfort of city life, is a world too deeply woven into our habits to easily abandon. Amid the towering structures, he has a space of his own, a quiet lookout where he can watch the world move on outside, while relaxing in his own way. For a moment, imagination turns that space into a nature retreat, a cabin in the forest, a peaceful spot in the mountains. It is his quiet yearning to flee the city each weekend.'
     },
     {
         src: 'images/dog150.png',
         title: 'I had a dream about my friend',
         aspectRatio: '1.414 / 1',
-        explanation: 'Exploring the soft spaces of memory and companionship. A visual translation of subconscious comfort, where the blue lines trace a dream-state encounter with a companion from the past, representing emotional grounding.'
+        explanation: 'The quiet space of daily life. A bed, a desk, a TV, and the clutter of a personal sanctuary. Here, at night, the physical world fades into hazy memories. And imagination takes the stage. Growing into adulthood next to a beloved dog is one of the most wonderful things in life. But it can also be one of the most devastating at the end of the journey. This is the bittersweet struggle of grief.  A tender attempt to dream of a dear pet while coming back to reality when the sun rises. But for a brief moment, two friends can be together again.'
     },
     {
         src: 'images/fishing150.png',
         title: 'I love fishing, let’s go!',
-        explanation: 'Capturing a moment of pure focus and quiet escape. The act of fishing is depicted as a form of meditation, where the external noise of modern responsibilities falls away, leaving only the simple connection with the water.'
+        explanation: 'The view outside the office window: an everyday landscape of parked cars, cardboard boxes, concrete, and urban geometry. Nothing new to see there, so why not dream a little? The pavement starts to dissolve into flowing blue water, lively fish swim left and right, the sun burns through the clouds, the heart is satisfied.  A plan starts to form, a relieving thought, something to wait for. We should make time for the things we love.'
     },
     {
         src: 'images/hand150.png',
         title: 'I live to the fullest',
-        explanation: 'An intimate study of touch, agency, and presence. The artwork centers on the gesture of reaching and feeling, symbolizing a quiet determination to live fully, feel deeply, and grasp one\'s own narrative.'
+        explanation: 'The polished, polite existence of having an office job is disrupted by the rough and calloused hands that perform it. The keyboard requires precision and softness, but his hands carry the memory of iron, strength, and effort. This is the duality of a mind bound to a desk and a body that refuses to follow suit.'
     },
     {
         src: 'images/laptip150.png',
         title: 'I like it, but it stresses me out',
-        explanation: 'Visualizing the double-edged sword of digital connection. The laptop, representing work and social interfaces, becomes a source of both creative utility and overwhelming mental fatigue.'
+        explanation: 'Corporate life has great advantages, but everything comes with a cost. Hidden behind that mandatory professional smile, there’s often exhaustion, isolation, and boredom. Even if we like our jobs, there’s always that feeling that we could be doing something else, something that makes our souls happy. Can we keep turning our frown upside down on command?'
     },
     {
         src: 'images/panels150.png',
         title: 'Just need to keep going,  I can do it',
-        explanation: 'A comic-style narrative sequence depicting the emotional journey of persistence. The repetitive panel structures mirror the feeling of passing time and the daily struggle to keep moving forward.'
+        explanation: 'The archive of his life shows a multifaceted self, as he has unique passions, routines, and burdens that define him, but never stop him. His different internal worlds ensamble like cells, functioning together to build the complete architecture of who he is.'
     },
     {
         src: 'images/park150.png',
         title: 'I wish I could scape sometimes',
-        explanation: 'Exploring the boundary between private refuge and public space. The drawing depicts a park bench as a temporary sanctuary—a brief pause in the center of the world\'s constant motion.'
+        explanation: 'In a tall office building, in a rigid office grid, in a desk that has become his own personal world, sometimes the corporate environment can feel overwhelming. Like this, the longing for peace and nature appears subtly and slowly. Daydreaming of trees, rivers, a cold beer, and sunshine, the mind finds a way to wander free for a few minutes.'
     },
     {
         src: 'images/tree150.png',
         title: 'There’s so much I want to achieve',
-        explanation: 'A representation of growth, aspiration, and the passage of seasons. The branches stretch upward as a metaphor for personal ambition and the quiet desire to achieve something lasting.'
+        explanation: 'The corporate ladder is strict but predictable. Depending on where you stop climbing, a predefined outcome will be behind every door. However, the soul’s true trajectory is to grow organically and reach in all directions at once. Concealed in the the blue branches are 6 Korean words that represent said directions.'
     }
 ];
 
@@ -197,7 +197,7 @@ function setActiveColor(color) {
     } else {
         activeColor = color;
         currentSize = getBaseSize();
-        
+
         allCircles.forEach(circle => {
             circle.classList.remove('active');
             circle.style.backgroundColor = 'transparent';
@@ -238,7 +238,7 @@ let lastClientY = window.innerHeight / 2;
 const updateFilterPosition = (clientX, clientY) => {
     lastClientX = clientX;
     lastClientY = clientY;
-    
+
     if (document.body.classList.contains('fullscreen-active')) {
         const overlayContainer = document.querySelector('.fullscreen-image-container');
         const activeCircle = document.getElementById('fullscreen-circle');
@@ -294,11 +294,11 @@ const closeFilterBtn = document.getElementById('close-filter-btn');
 
 window.addEventListener('click', (e) => {
     if (
-        e.target.closest('.color-btn') || 
-        e.target.closest('#close-filter-btn') || 
-        e.target.closest('#close-fullscreen-btn') || 
-        e.target.closest('.image-zoom-btn') || 
-        e.target.closest('#about-btn') || 
+        e.target.closest('.color-btn') ||
+        e.target.closest('#close-filter-btn') ||
+        e.target.closest('#close-fullscreen-btn') ||
+        e.target.closest('.image-zoom-btn') ||
+        e.target.closest('#about-btn') ||
         e.target.closest('#about-modal')
     ) return;
 
@@ -334,7 +334,10 @@ if (closeFilterBtn) {
 // Lightbox Zoom Event Handler
 gridContainer.addEventListener('click', (e) => {
     const zoomBtn = e.target.closest('.image-zoom-btn');
-    if (!zoomBtn) return;
+    const isMobile = window.innerWidth <= 480;
+    const imgContainer = e.target.closest('.illustration-image-container');
+
+    if (!zoomBtn && !(isMobile && imgContainer)) return;
 
     if (document.body.classList.contains('fullscreen-active')) return;
 
@@ -350,7 +353,7 @@ gridContainer.addEventListener('click', (e) => {
 
         const overlay = document.getElementById('fullscreen-overlay');
         const overlayContainer = overlay.querySelector('.fullscreen-image-container');
-        
+
         // Clear old image if any
         const existingImg = overlayContainer.querySelector('.illustration-image');
         if (existingImg) existingImg.remove();
@@ -431,7 +434,7 @@ if (closeFullscreenBtn) {
         // Revert class to measure standard grid layout (First)
         document.body.classList.remove('fullscreen-active');
         const firstRect = activeZoomImage.getBoundingClientRect();
-        
+
         // Go back to fullscreen state to animate
         document.body.classList.add('fullscreen-active');
 
@@ -460,8 +463,10 @@ if (closeFullscreenBtn) {
 const overlay = document.getElementById('fullscreen-overlay');
 if (overlay) {
     overlay.addEventListener('touchstart', (e) => {
-        if (!e.target.classList.contains('illustration-image')) return;
-        if (e.target.classList.contains('animating')) return;
+        if (e.target.closest('.color-btn') || e.target.closest('#close-fullscreen-btn') || e.target.closest('#close-filter-btn')) return;
+
+        const overlayImg = overlay.querySelector('.illustration-image');
+        if (!overlayImg || overlayImg.classList.contains('animating')) return;
 
         const touches = e.touches;
 
@@ -484,9 +489,10 @@ if (overlay) {
     }, { passive: true });
 
     overlay.addEventListener('touchmove', (e) => {
+        if (e.target.closest('.color-btn') || e.target.closest('#close-fullscreen-btn') || e.target.closest('#close-filter-btn')) return;
+
         const overlayImg = overlay.querySelector('.illustration-image');
         if (!overlayImg || overlayImg.classList.contains('animating')) return;
-        if (!e.target.classList.contains('illustration-image')) return;
 
         const touches = e.touches;
 
@@ -579,14 +585,14 @@ if (aboutBtn && aboutModal && closeAboutBtn) {
 // Detail View Page Event Handlers
 function openDetailView(idx) {
     const ill = illustrations[idx];
-    
+
     document.getElementById('detail-title').textContent = ill.title;
     document.getElementById('detail-explanation').textContent = ill.explanation || "";
-    
+
     const detailImg = document.getElementById('detail-image');
     detailImg.src = ill.src;
     detailImg.alt = ill.title;
-    
+
     document.getElementById('detail-view').classList.add('active');
     document.body.style.overflow = 'hidden';
 }

@@ -4,37 +4,38 @@
 
 const illustrations = [
     {
+        src: 'images/hand150.png',
+    },
+    {
+        src: 'images/tree150.png',
+    },
+    {
+        src: 'images/laptip150.png',
+    },
+    {
+        src: 'images/park150.png',
+    },
+    {
         src: 'images/city150.png',
+    },
+    {
+        src: 'images/fishing150.png',
     },
     {
         src: 'images/dog150.png',
         aspectRatio: '1.414 / 1',
     },
     {
-        src: 'images/fishing150.png',
-    },
-    {
-        src: 'images/hand150.png',
-    },
-    {
-        src: 'images/laptip150.png',
-    },
-    {
         src: 'images/panels150.png',
-    },
-    {
-        src: 'images/park150.png',
-    },
-    {
-        src: 'images/tree150.png',
     }
 ];
 
 const translations = {
     en: {
         headerTitle: 'Between Worlds',
-        aboutBtn: 'about',
+        aboutBtn: 'About',
         langBtn: 'KOR',
+        tagline: 'Reveal the worlds in every image',
         exitFilterBtn: 'Exit Filter',
         exitFullscreenAria: 'Exit fullscreen',
         closeDetailsAria: 'Close details',
@@ -48,36 +49,36 @@ const translations = {
         footerText: '© 2026 Camila Saldivia. All rights reserved.',
         illustrations: [
             {
-                title: 'I need to get out of the city this weekend',
-                explanation: 'The skyline, the loud, familiar comfort of city life, is a world too deeply woven into our habits to easily abandon. Amid the towering structures, he has a space of his own, a quiet lookout where he can watch the world move on outside, while relaxing in his own way. For a moment, imagination turns that space into a nature retreat, a cabin in the forest, a peaceful spot in the mountains. It is his quiet yearning to flee the city each weekend.'
-            },
-            {
-                title: 'I had a dream about my friend',
-                explanation: 'The quiet space of daily life. A bed, a desk, a TV, and the clutter of a personal sanctuary. Here, at night, the physical world fades into hazy memories. And imagination takes the stage. Growing into adulthood next to a beloved dog is one of the most wonderful things in life. But it can also be one of the most devastating at the end of the journey. This is the bittersweet struggle of grief. A tender attempt to dream of a dear pet while coming back to reality when the sun rises. But for a brief moment, two friends can be together again.'
-            },
-            {
-                title: 'I love fishing, let’s go!',
-                explanation: 'The view outside the office window: an everyday landscape of parked cars, cardboard boxes, concrete, and urban geometry. Nothing new to see there, so why not dream a little? The pavement starts to dissolve into flowing blue water, lively fish swim left and right, the sun burns through the clouds, the heart is satisfied. A plan starts to form, a relieving thought, something to wait for. We should make time for the things we love.'
-            },
-            {
                 title: 'I live to the fullest',
                 explanation: 'The polished, polite existence of having an office job is disrupted by the rough and calloused hands that perform it. The keyboard requires precision and softness, but his hands carry the memory of iron, strength, and effort. This is the duality of a mind bound to a desk and a body that refuses to follow suit.'
             },
             {
-                title: 'I like it, but it stresses me out',
-                explanation: 'Corporate life has great advantages, but everything comes with a cost. Hidden behind that mandatory professional smile, there’s often exhaustion, isolation, and boredom. Even if we like our jobs, there’s always that feeling that we could be doing something else, something that makes our souls happy. Can we keep turning our frown upside down on command?'
+                title: 'There’s so much<br>I want to achieve',
+                explanation: 'The corporate ladder is strict but predictable. Depending on where you stop climbing, a predefined outcome will be behind every door. However, the soul’s true trajectory is to grow organically and reach in all directions at once. Concealed in the the blue branches are 6 Korean words that represent said directions.'
             },
             {
-                title: 'Just need to keep going,  I can do it',
-                explanation: 'The archive of his life shows a multifaceted self, as he has unique passions, routines, and burdens that define him, but never stop him. His different internal worlds ensamble like cells, functioning together to build the complete architecture of who he is.'
+                title: 'I like it, but it<br>stresses me out',
+                explanation: 'Corporate life has great advantages, but everything comes with a cost. Hidden behind that mandatory professional smile, there’s often exhaustion, isolation, and boredom. Even if we like our jobs, there’s always that feeling that we could be doing something else, something that makes our souls happy. Can we keep turning our frown upside down on command?'
             },
             {
                 title: 'I wish I could scape sometimes',
                 explanation: 'In a tall office building, in a rigid office grid, in a desk that has become his own personal world, sometimes the corporate environment can feel overwhelming. Like this, the longing for peace and nature appears subtly and slowly. Daydreaming of trees, rivers, a cold beer, and sunshine, the mind finds a way to wander free for a few minutes.'
             },
             {
-                title: 'There’s so much I want to achieve',
-                explanation: 'The corporate ladder is strict but predictable. Depending on where you stop climbing, a predefined outcome will be behind every door. However, the soul’s true trajectory is to grow organically and reach in all directions at once. Concealed in the the blue branches are 6 Korean words that represent said directions.'
+                title: 'I need to get<br>out of the city<br>this weekend',
+                explanation: 'The skyline, the loud, familiar comfort of city life, is a world too deeply woven into our habits to easily abandon. Amid the towering structures, he has a space of his own, a quiet lookout where he can watch the world move on outside, while relaxing in his own way. For a moment, imagination turns that space into a nature retreat, a cabin in the forest, a peaceful spot in the mountains. It is his quiet yearning to flee the city each weekend.'
+            },
+            {
+                title: 'I love fishing,<br>let’s go!',
+                explanation: 'The view outside the office window: an everyday landscape of parked cars, cardboard boxes, concrete, and urban geometry. Nothing new to see there, so why not dream a little? The pavement starts to dissolve into flowing blue water, lively fish swim left and right, the sun burns through the clouds, the heart is satisfied. A plan starts to form, a relieving thought, something to wait for. We should make time for the things we love.'
+            },
+            {
+                title: 'I had a dream<br>about my friend',
+                explanation: 'The quiet space of daily life. A bed, a desk, a TV, and the clutter of a personal sanctuary. Here, at night, the physical world fades into hazy memories. And imagination takes the stage. Growing into adulthood next to a beloved dog is one of the most wonderful things in life. But it can also be one of the most devastating at the end of the journey. This is the bittersweet struggle of grief. A tender attempt to dream of a dear pet while coming back to reality when the sun rises. But for a brief moment, two friends can be together again.'
+            },
+            {
+                title: 'Just need to keep<br>going, I can do it',
+                explanation: 'The archive of his life shows a multifaceted self, as he has unique passions, routines, and burdens that define him, but never stop him. His different internal worlds ensamble like cells, functioning together to build the complete architecture of who he is.'
             }
         ]
     },
@@ -85,49 +86,50 @@ const translations = {
         headerTitle: '세계 사이에서',
         aboutBtn: '소개',
         langBtn: 'ENG',
+        tagline: '모든 그림 속에 담긴 세계를 찾아보세요',
         exitFilterBtn: '필터 해제',
         exitFullscreenAria: '전체화면 종료',
         closeDetailsAria: '상세보기 닫기',
         closeModalAria: '모달 닫기',
         aboutTitle: '세계 사이에서',
         aboutParagraphs: [
-            '이 컬렉션은 작가에게 소중한 특정 인물의 삶에 대한 시각적 탐구이며, 그의 개인적인 역사, 고군분투, 그리고 조용한 승리가 모든 일러스트레이션에 반영되어 있습니다.',
-            '빨간색과 파란색 선화를 통해 작품은 개인의 정체성과 사회적 구조 사이의 마찰을 시각화합니다. 빨간색 요소는 외부 세계, 즉 현대 삶의 반복적이고 예측 가능하며 종종 지치는 공간을 나타냅니다. 반면 파란색 요소는 내부 공간, 즉 이 사람이 버틸 수 있게 해주는 사적인 열정, 깊은 애착, 정신적 탈출을 나타냅니다.',
-            '이 두 힘을 대립으로 보기보다, 이 연작은 그것들을 공존으로 구성합니다. 자신의 온전함을 찾아가는 누군가의 초상화입니다.'
+            '이 컬렉션은 작가에게 소중한 한 인물의 삶을 시각적으로 탐구한 작업이다. 그의 개인적 역사와 고난, 그리고 조용한 성취가 모든 일러스트레이션에 담겨 있다.',
+            '작품은 붉은색과 푸른색 line art를 통해 개인의 정체성과 사회 구조 사이에서 발생하는 긴장을 시각화한다. 붉은 요소는 외부 세계를 상징한다. 그것은 현대 사회의 반복적이고 예측 가능하며 때로는 지치게 만드는 공간이다. 반면 푸른 요소는 내면의 공간을 상징한다. 그것은 이 인물이 삶을 견뎌 나갈 수 있도록 하는 개인적인 열정, 깊은 애착, 그리고 정신적 도피처를 의미한다.',
+            '이 연작은 이 두 힘을 갈등으로 바라보기보다 공존의 관계로 제시한다. 이는 자신의 온전함을 찾아가는 한 사람의 초상이다.'
         ],
         footerText: '© 2026 Camila Saldivia. 모든 권리 보유.',
         illustrations: [
             {
-                title: '이번 주말에는 도시를 벗어나야겠다',
-                explanation: '도시 생활의 시끄럽고 익숙한 편안함인 스카이라인은 우리의 습관에 너무 깊이 짜여 있어 쉽게 포기하기 어려운 세상입니다. 우뚝 솟은 건물들 사이에서 그는 자신만의 공간, 밖에서 흘러가는 세상을 바라보며 자신만의 방식으로 휴식을 취할 수 있는 조용한 전망대를 가지고 있습니다. 잠시 상상력은 그 공간을 숲속의 오두막이나 산속의 평화로운 장소와 같은 자연의 휴식처로 바꿉니다. 주말마다 도시를 탈출하고자 하는 그의 조용한 열망입니다.'
-            },
-            {
-                title: '내 친구에 대한 꿈을 꿨어',
-                explanation: '일상생활의 조용한 공간. 침대, 책상, TV, 그리고 개인적 안식처의 어수선함. 여기 밤이 되면 물리적 세계는 흐릿한 기억 속으로 사라지고 상상력이 무대에 오릅니다. 사랑하는 반려견과 함께 성인이 되는 것은 삶에서 가장 멋진 일 중 하나입니다. 하지만 여정의 끝에서는 가장 파괴적인 일 중 하나가 될 수도 있습니다. 이것은 슬픔의 달콤씁쓸한 투쟁입니다. 해가 뜰 때 현실로 돌아오면서도 사랑하는 반려동물을 꿈꾸려는 부드러운 시도입니다. 하지만 잠시 동안 두 친구는 다시 함께할 수 있습니다.'
-            },
-            {
-                title: '나 낚시 좋아해, 가자!',
-                explanation: '사무실 창밖의 풍경: 주차된 차들, 판지 상자들, 콘크리트, 도시 기하학으로 이루어진 일상의 풍경. 그곳에는 새로울 것이 없으니, 상상을 좀 해보는 건 어떨까요? 도로가 흐르는 푸른 물로 녹아들기 시작하고, 활기찬 물고기들이 좌우로 헤엄치며, 태양이 구름을 뚫고 타오르고, 마음은 만족스러워집니다. 계획이 세워지고, 안도감을 주는 생각, 기다려지는 무언가가 생겨납니다. 우리는 우리가 좋아하는 일들을 위해 시간을 내야 합니다.'
-            },
-            {
                 title: '나는 매 순간 최선을 다해 살아',
                 explanation: '사무실 직업을 가진 단정하고 정중한 존재는 그것을 수행하는 거칠고 굳은살 박인 손에 의해 흐트러집니다. 키보드는 정밀함과 부드러움을 요구하지만, 그의 손은 철, 힘, 그리고 노력의 기억을 간직하고 있습니다. 이것은 책상에 묶인 마음과 그것을 따르기를 거부하는 몸의 이중성입니다.'
+            },
+            {
+                title: '이루고 싶은 게 정말 많아',
+                explanation: '회사 사다리는 엄격하지만 예측 가능합니다. 오르는 것을 멈추는 위치에 따라 정의된 결과가 문 뒤에 기다리고 있을 것입니다. 그러나 영혼의 진정한 궤적은 유기적으로 성장하고 모든 방향으로 동시에 뻗어나가는 것입니다. 파란색 나뭇가지들 속에는 그 방향들을 나타내는 6개의 한국어 단어가 숨겨져 있습니다.'
             },
             {
                 title: '좋긴 한데 스트레스 받아',
                 explanation: '회사 생활은 큰 이점이 있지만, 모든 것에는 비용이 따릅니다. 의무적인 비즈니스 미소 뒤에는 흔히 피로, 고립, 지루함이 숨어 있습니다. 비록 일을 좋아하더라도, 영혼을 행복하게 만드는 다른 일, 다른 무언가를 할 수 있을 것 같다는 느낌이 늘 존재합니다. 우리는 계속 명령에 따라 찡그린 얼굴을 뒤집어 미소를 지을 수 있을까요?'
             },
             {
-                title: '그냥 계속 가면 돼, 할 수 있어',
-                explanation: '그의 삶의 기록은 자신을 정의하지만 결코 멈추지 않는 독특한 열정, 루틴, 부담을 가진 다면적인 자아를 보여줍니다. 그의 서로 다른 내면 세계들은 세포처럼 조립되어 그가 누구인지를 정의하는 완전한 구조를 형성합니다.'
-            },
-            {
                 title: '가끔은 탈출하고 싶어',
                 explanation: '높은 오피스 빌딩에서, 경직된 사무실 격자 속에서, 자신만의 개인 세계가 된 책상에서, 때로는 기업 환경이 압도적으로 느껴질 수 있습니다. 이처럼 평화와 자연에 대한 열망은 미묘하고 천천히 나타납니다. 나무, 강, 시원한 맥주, 햇살을 몽상하며 마음은 몇 분 동안 자유롭게 배회할 수 있는 길을 찾습니다.'
             },
             {
-                title: '이루고 싶은 게 정말 많아',
-                explanation: '회사 사다리는 엄격하지만 예측 가능합니다. 오르는 것을 멈추는 위치에 따라 정의된 결과가 문 뒤에 기다리고 있을 것입니다. 그러나 영혼의 진정한 궤적은 유기적으로 성장하고 모든 방향으로 동시에 뻗어나가는 것입니다. 파란색 나뭇가지들 속에는 그 방향들을 나타내는 6개의 한국어 단어가 숨겨져 있습니다.'
+                title: '이번 주말에는 도시를 벗어나야겠다',
+                explanation: '도시 생활의 시끄럽고 익숙한 편안함인 스카이라인은 우리의 습관에 너무 깊이 짜여 있어 쉽게 포기하기 어려운 세상입니다. 우뚝 솟은 건물들 사이에서 그는 자신만의 공간, 밖에서 흘러가는 세상을 바라보며 자신만의 방식으로 휴식을 취할 수 있는 조용한 전망대를 가지고 있습니다. 잠시 상상력은 그 공간을 숲속의 오두막이나 산속의 평화로운 장소와 같은 자연의 휴식처로 바꿉니다. 주말마다 도시를 탈출하고자 하는 그의 조용한 열망입니다.'
+            },
+            {
+                title: '나 낚시 좋아해, 가자!',
+                explanation: '사무실 창밖의 풍경: 주차된 차들, 판지 상자들, 콘크리트, 도시 기하학으로 이루어진 일상의 풍경. 그곳에는 새로울 것이 없으니, 상상을 좀 해보는 건 어떨까요? 도로가 흐르는 푸른 물로 녹아들기 시작하고, 활기찬 물고기들이 좌우로 헤엄치며, 태양이 구름을 뚫고 타오르고, 마음은 만족스러워집니다. 계획이 세워지고, 안도감을 주는 생각, 기다려지는 무언가가 생겨납니다. 우리는 우리가 좋아하는 일들을 위해 시간을 내야 합니다.'
+            },
+            {
+                title: '내 친구에 대한 꿈을 꿨어',
+                explanation: '일상생활의 조용한 공간. 침대, 책상, TV, 그리고 개인적 안식처의 어수선함. 여기 밤이 되면 물리적 세계는 흐릿한 기억 속으로 사라지고 상상력이 무대에 오릅니다. 사랑하는 반려견과 함께 성인이 되는 것은 삶에서 가장 멋진 일 중 하나입니다. 하지만 여정의 끝에서는 가장 파괴적인 일 중 하나가 될 수도 있습니다. 이것은 슬픔의 달콤씁쓸한 투쟁입니다. 해가 뜰 때 현실로 돌아오면서도 사랑하는 반려동물을 꿈꾸려는 부드러운 시도입니다. 하지만 잠시 동안 두 친구는 다시 함께할 수 있습니다.'
+            },
+            {
+                title: '그냥 계속 가면 돼, 할 수 있어',
+                explanation: '그의 삶의 기록은 자신을 정의하지만 결코 멈추지 않는 독특한 열정, 루틴, 부담을 가진 다면적인 자아를 보여줍니다. 그의 서로 다른 내면 세계들은 세포처럼 조립되어 그가 누구인지를 정의하는 완전한 구조를 형성합니다.'
             }
         ]
     }
@@ -195,7 +197,7 @@ function createPictureCard(ill, idx) {
 
     const img = document.createElement('img');
     img.src = ill.src;
-    img.alt = translations[currentLang].illustrations[idx].title;
+    img.alt = translations[currentLang].illustrations[idx].title.replace(/<br\s*\/?>/gi, ' ');
     img.className = 'illustration-image';
     imgContainer.appendChild(img);
 
@@ -206,7 +208,7 @@ function createPictureCard(ill, idx) {
 
     const zoomBtn = document.createElement('button');
     zoomBtn.className = 'image-zoom-btn';
-    zoomBtn.setAttribute('aria-label', `Zoom in on ${translations[currentLang].illustrations[idx].title}`);
+    zoomBtn.setAttribute('aria-label', `Zoom in on ${translations[currentLang].illustrations[idx].title.replace(/<br\s*\/?>/gi, ' ')}`);
     zoomBtn.innerHTML = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
@@ -247,9 +249,15 @@ function createTitleCard(ill, idx) {
     card.style.setProperty('--index', idx);
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `View details for ${translations[currentLang].illustrations[idx].title}`);
+    card.setAttribute('aria-label', `View details for ${translations[currentLang].illustrations[idx].title.replace(/<br\s*\/?>/gi, ' ')}`);
     if (ill.aspectRatio) {
         card.classList.add('horizontal-card');
+    }
+
+    if (idx % 2 === 0) {
+        card.classList.add('cloud-red');
+    } else {
+        card.classList.add('cloud-blue');
     }
 
     const titleOrder = (idx % 2 === 0) ? (idx * 2 + 1) : (idx * 2);
@@ -260,7 +268,7 @@ function createTitleCard(ill, idx) {
 
     const title = document.createElement('h2');
     title.className = 'illustration-title';
-    title.textContent = translations[currentLang].illustrations[idx].title;
+    title.innerHTML = translations[currentLang].illustrations[idx].title;
 
     info.appendChild(title);
     card.appendChild(info);
@@ -276,8 +284,11 @@ function updateLanguageDOM() {
     document.title = currentLang === 'en' ? 'Between Worlds' : '경계에서';
 
     // 3. Update header elements
-    const h1 = document.querySelector('.showcase-header h1');
-    if (h1) h1.textContent = translations[currentLang].headerTitle;
+    const h1Img = document.querySelector('.showcase-header h1 img');
+    if (h1Img) h1Img.alt = translations[currentLang].headerTitle;
+ 
+    const taglineElement = document.querySelector('.header-tagline');
+    if (taglineElement) taglineElement.textContent = translations[currentLang].tagline;
 
     const aboutBtn = document.getElementById('about-btn');
     if (aboutBtn) aboutBtn.textContent = translations[currentLang].aboutBtn;
@@ -316,30 +327,41 @@ function updateLanguageDOM() {
     const titleCards = document.querySelectorAll('.title-card');
     titleCards.forEach(card => {
         const idx = parseInt(card.getAttribute('data-index'), 10);
-        card.querySelector('.illustration-title').textContent = translations[currentLang].illustrations[idx].title;
-        card.setAttribute('aria-label', `View details for ${translations[currentLang].illustrations[idx].title}`);
+        card.querySelector('.illustration-title').innerHTML = translations[currentLang].illustrations[idx].title;
+        card.setAttribute('aria-label', `View details for ${translations[currentLang].illustrations[idx].title.replace(/<br\s*\/?>/gi, ' ')}`);
     });
 
     const pictureCards = document.querySelectorAll('.picture-card');
     pictureCards.forEach(card => {
         const idx = parseInt(card.getAttribute('data-index'), 10);
         const img = card.querySelector('.illustration-image');
-        if (img) img.alt = translations[currentLang].illustrations[idx].title;
+        if (img) img.alt = translations[currentLang].illustrations[idx].title.replace(/<br\s*\/?>/gi, ' ');
         const zoomBtn = card.querySelector('.image-zoom-btn');
-        if (zoomBtn) zoomBtn.setAttribute('aria-label', `Zoom in on ${translations[currentLang].illustrations[idx].title}`);
+        if (zoomBtn) zoomBtn.setAttribute('aria-label', `Zoom in on ${translations[currentLang].illustrations[idx].title.replace(/<br\s*\/?>/gi, ' ')}`);
     });
 
     // 9. Update detail view content if currently open
     if (activeDetailIndex !== -1) {
         const translation = translations[currentLang].illustrations[activeDetailIndex];
         const detailTitle = document.getElementById('detail-title');
-        if (detailTitle) detailTitle.textContent = translation.title;
+        if (detailTitle) detailTitle.innerHTML = translation.title.replace(/<br\s*\/?>/gi, ' ');
 
         const detailExplanation = document.getElementById('detail-explanation');
         if (detailExplanation) detailExplanation.textContent = translation.explanation || "";
 
         const detailImg = document.getElementById('detail-image');
-        if (detailImg) detailImg.alt = translation.title;
+        if (detailImg) detailImg.alt = translation.title.replace(/<br\s*\/?>/gi, ' ');
+
+        const detailCloud = document.querySelector('.detail-cloud');
+        if (detailCloud) {
+            const isRed = (activeDetailIndex % 2 === 0);
+            detailCloud.src = isRed ? 'webresources/messageRecurso%2018@smallcloudred.png' : 'webresources/messageRecurso%2019@smallcloudblue.png';
+            if (currentLang === 'en') {
+                detailCloud.alt = isRed ? 'Small red cloud decoration' : 'Small blue cloud decoration';
+            } else {
+                detailCloud.alt = isRed ? '작은 빨간 구름 장식' : '작은 파란 구름 장식';
+            }
+        }
     }
 }
 
@@ -772,12 +794,23 @@ function openDetailView(idx) {
     const ill = illustrations[idx];
     const translation = translations[currentLang].illustrations[idx];
 
-    document.getElementById('detail-title').textContent = translation.title;
+    document.getElementById('detail-title').innerHTML = translation.title.replace(/<br\s*\/?>/gi, ' ');
     document.getElementById('detail-explanation').textContent = translation.explanation || "";
 
     const detailImg = document.getElementById('detail-image');
     detailImg.src = ill.src;
-    detailImg.alt = translation.title;
+    detailImg.alt = translation.title.replace(/<br\s*\/?>/gi, ' ');
+
+    const detailCloud = document.querySelector('.detail-cloud');
+    if (detailCloud) {
+        const isRed = (idx % 2 === 0);
+        detailCloud.src = isRed ? 'webresources/messageRecurso%2018@smallcloudred.png' : 'webresources/messageRecurso%2019@smallcloudblue.png';
+        if (currentLang === 'en') {
+            detailCloud.alt = isRed ? 'Small red cloud decoration' : 'Small blue cloud decoration';
+        } else {
+            detailCloud.alt = isRed ? '작은 빨간 구름 장식' : '작은 파란 구름 장식';
+        }
+    }
 
     activeDetailIndex = idx;
 

@@ -118,6 +118,7 @@ textarea {
     height: auto;
     display: block;
     object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .author-subtitle {
@@ -128,16 +129,7 @@ textarea {
     margin-top: 5px;
 }
 
-.header-tagline {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
-    font-size: 1.45rem;
-    font-weight: 300;
-    color: #563c37;
-    letter-spacing: 0.05em;
-    margin-left: calc((100% - 130px) / 4 + 40px);
-    margin-right: auto;
-    white-space: nowrap;
-}
+
 
 .header-actions {
     display: flex;
@@ -385,9 +377,7 @@ body.filter-active .close-filter-btn {
         width: calc((100% - 50px) / 2);
     }
 
-    .header-tagline {
-        margin-left: calc((100% - 50px) / 2 + 30px);
-    }
+
 }
 
 @media (min-width: 901px) {
@@ -416,9 +406,7 @@ body.filter-active .close-filter-btn {
         position: relative;
     }
 
-    .header-tagline {
-        display: none;
-    }
+
 
     .header-title-wrapper {
         position: relative;

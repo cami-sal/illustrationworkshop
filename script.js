@@ -35,7 +35,6 @@ const translations = {
         headerTitle: 'Between Worlds',
         aboutBtn: 'About',
         langBtn: 'KOR',
-        tagline: 'Reveal the worlds in every image',
         exitFilterBtn: 'Exit Filter',
         exitFullscreenAria: 'Exit fullscreen',
         closeDetailsAria: 'Close details',
@@ -86,7 +85,6 @@ const translations = {
         headerTitle: '세계 사이에서',
         aboutBtn: '소개',
         langBtn: 'ENG',
-        tagline: '모든 그림 속에 담긴 세계를 찾아보세요',
         exitFilterBtn: '필터 해제',
         exitFullscreenAria: '전체화면 종료',
         closeDetailsAria: '상세보기 닫기',
@@ -287,9 +285,6 @@ function updateLanguageDOM() {
     const h1Img = document.querySelector('.showcase-header h1 img');
     if (h1Img) h1Img.alt = translations[currentLang].headerTitle;
  
-    const taglineElement = document.querySelector('.header-tagline');
-    if (taglineElement) taglineElement.textContent = translations[currentLang].tagline;
-
     const aboutBtn = document.getElementById('about-btn');
     if (aboutBtn) aboutBtn.textContent = translations[currentLang].aboutBtn;
 

@@ -569,8 +569,8 @@ body.fullscreen-active {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100dvh;
     background: #ffffff;
     z-index: 150;
     display: flex;
@@ -592,8 +592,8 @@ body.fullscreen-active.fullscreen-exit-active .fullscreen-overlay {
 
 .fullscreen-overlay .fullscreen-image-container {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100dvh;
     max-width: 71.65vh;
     max-height: 139.57vw;
     aspect-ratio: 1299 / 1813;
@@ -909,8 +909,8 @@ body.fullscreen-active .image-zoom-btn {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100dvh;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -1056,8 +1056,8 @@ body.fullscreen-active .image-zoom-btn {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100dvh;
     background-color: #ffffff;
     z-index: 140;
     /* Just below fullscreen overlay (150) but above the main grid */
@@ -1260,15 +1260,14 @@ body.fullscreen-active .custom-cursor {
     background-color: #0000ff !important;
 }
 
-/* Rotate horizontal image container on mobile portrait screens to fit screen height */
+/* Make horizontal image container behave like a vertical container on mobile portrait screens */
 @media (max-width: 480px) {
     .fullscreen-overlay .fullscreen-image-container.horizontal-container {
-        width: 139.57vw;
-        height: 100vw;
-        max-width: 139.57vh;
-        max-height: 71.65vh;
-        aspect-ratio: 1813 / 1299;
-        transform: rotate(90deg);
-        transform-origin: center center;
+        width: 100%;
+        height: 100dvh;
+        max-width: 71.65vh;
+        max-height: 139.57vw;
+        aspect-ratio: 1299 / 1813;
+        transform: none;
     }
 }

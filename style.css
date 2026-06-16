@@ -38,7 +38,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('webresources/messageRecurso%2022@linesred.png');
+    background-image: url('webresources/messageRecurso_22_linesred.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -229,11 +229,11 @@ textarea {
 }
 
 .title-card.cloud-red::before {
-    background-image: url('web%20recursos%202/messageRecurso%202@textcloudsred.png');
+    background-image: url('webresources/messageRecurso_2_textcloudsred.png');
 }
 
 .title-card.cloud-blue::before {
-    background-image: url('web%20recursos%202/messageRecurso%2015@textcloudsblue.png');
+    background-image: url('webresources/messageRecurso_15_textcloudsblue.png');
 }
 
 .title-card:hover::before {
@@ -959,7 +959,7 @@ body.fullscreen-active .image-zoom-btn {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('webresources/messageRecurso%2031@subject.png');
+    background-image: url('webresources/messageRecurso_31_subject.png');
     background-size: cover;
     background-position: center;
     opacity: 0.12;

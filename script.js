@@ -355,7 +355,7 @@ function updateLanguageDOM() {
         const detailCloud = document.querySelector('.detail-cloud');
         if (detailCloud) {
             const isRed = (activeDetailIndex % 2 === 0);
-            detailCloud.src = isRed ? 'webresources/messageRecurso%2018@smallcloudred.png' : 'webresources/messageRecurso%2019@smallcloudblue.png';
+            detailCloud.src = isRed ? 'webresources/messageRecurso_18_smallcloudred.png' : 'webresources/messageRecurso_19_smallcloudblue.png';
             if (currentLang === 'en') {
                 detailCloud.alt = isRed ? 'Small red cloud decoration' : 'Small blue cloud decoration';
             } else {
@@ -804,7 +804,7 @@ function openDetailView(idx) {
     const detailCloud = document.querySelector('.detail-cloud');
     if (detailCloud) {
         const isRed = (idx % 2 === 0);
-        detailCloud.src = isRed ? 'webresources/messageRecurso%2018@smallcloudred.png' : 'webresources/messageRecurso%2019@smallcloudblue.png';
+        detailCloud.src = isRed ? 'webresources/messageRecurso_18_smallcloudred.png' : 'webresources/messageRecurso_19_smallcloudblue.png';
         if (currentLang === 'en') {
             detailCloud.alt = isRed ? 'Small red cloud decoration' : 'Small blue cloud decoration';
         } else {

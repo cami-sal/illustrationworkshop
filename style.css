@@ -1259,3 +1259,16 @@ body.fullscreen-active .custom-cursor {
 .custom-cursor.hovering-card.clicking {
     background-color: #0000ff !important;
 }
+
+/* Rotate horizontal image container on mobile portrait screens to fit screen height */
+@media (max-width: 480px) {
+    .fullscreen-overlay .fullscreen-image-container.horizontal-container {
+        width: 139.57vw;
+        height: 100vw;
+        max-width: 139.57vh;
+        max-height: 71.65vh;
+        aspect-ratio: 1813 / 1299;
+        transform: rotate(90deg);
+        transform-origin: center center;
+    }
+}

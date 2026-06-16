@@ -447,8 +447,13 @@ const updateFilterPosition = (clientX, clientY) => {
         const activeCircle = document.getElementById('fullscreen-circle');
         if (overlayContainer && activeCircle) {
             const rect = overlayContainer.getBoundingClientRect();
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
+            let x = clientX - rect.left;
+            let y = clientY - rect.top;
+            if (overlayContainer.classList.contains('horizontal-container') && window.innerWidth <= 480) {
+                const tempX = x;
+                x = y;
+                y = rect.width - tempX;
+            }
             activeCircle.style.left = `${x}px`;
             activeCircle.style.top = `${y}px`;
         }
@@ -701,8 +706,13 @@ if (overlay) {
         if (isDraggingImage && touches.length === 1) {
             const dx = touches[0].clientX - initialTouchX;
             const dy = touches[0].clientY - initialTouchY;
-            imagePanX = initialPanX + dx / imageScale;
-            imagePanY = initialPanY + dy / imageScale;
+            if (overlay.querySelector('.fullscreen-image-container').classList.contains('horizontal-container') && window.innerWidth <= 480) {
+                imagePanX = initialPanX + dy / imageScale;
+                imagePanY = initialPanY - dx / imageScale;
+            } else {
+                imagePanX = initialPanX + dx / imageScale;
+                imagePanY = initialPanY + dy / imageScale;
+            }
             applyOverlayImageTransform(overlayImg);
             if (e.cancelable) e.preventDefault();
         } else if (touches.length === 2) {

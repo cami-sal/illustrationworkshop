@@ -259,8 +259,12 @@ textarea {
     line-height: 1.4;
 }
 
+html[lang="ko"] body {
+    font-family: 'Nanum Myeongjo', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+}
+
 html[lang="ko"] .title-card .illustration-title {
-    font-family: 'Alegreya', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    font-family: 'Nanum Myeongjo', 'Alegreya', serif;
     font-weight: 700;
 }
 
@@ -1144,8 +1148,9 @@ body.fullscreen-active .image-zoom-btn {
 }
 
 html[lang="ko"] #detail-title {
-    font-family: 'Alegreya', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    font-family: 'Nanum Myeongjo', 'Alegreya', serif;
     font-weight: 700;
+    word-spacing: 0.15em;
 }
 
 #detail-explanation {

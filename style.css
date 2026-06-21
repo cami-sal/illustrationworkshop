@@ -501,6 +501,10 @@ body.filter-active .close-filter-btn {
         line-height: 1.3;
     }
 
+    html[lang="ko"] .title-card .illustration-title {
+        word-spacing: 0.15em;
+    }
+
     .image-zoom-btn {
         display: none !important;
     }

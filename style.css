@@ -260,11 +260,11 @@ textarea {
 }
 
 html[lang="ko"] body {
-    font-family: 'Nanum Myeongjo', 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Nanum Myeongjo', sans-serif;
 }
 
 html[lang="ko"] .title-card .illustration-title {
-    font-family: 'Nanum Myeongjo', 'Alegreya', serif;
+    font-family: 'Alegreya', 'Nanum Myeongjo', Georgia, serif;
     font-weight: 700;
 }
 
@@ -1148,7 +1148,7 @@ body.fullscreen-active .image-zoom-btn {
 }
 
 html[lang="ko"] #detail-title {
-    font-family: 'Nanum Myeongjo', 'Alegreya', serif;
+    font-family: 'Alegreya', 'Nanum Myeongjo', Georgia, serif;
     font-weight: 700;
     word-spacing: 0.15em;
 }
